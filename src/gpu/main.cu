@@ -1,54 +1,50 @@
+#include "imaging.hpp"
+#include "data_io.hpp"
 #include <iostream>
 #include <vector>
 #include <complex>
-#include "imaging.hpp"  // Ensure this header contains the necessary function prototype and namespace
 #include <chrono>
-#include <random>
-#include <fstream> 
+#include <fstream>
+#include <cmath>  // For M_PI
 
 int main() {
     const int image_size = config::IMAGE_SIZE;  // Use the defined image size from the header
-    std::vector<std::complex<double>> visibilities(image_size * image_size, std::complex<double>(1, 0));
-    std::vector<double> u(image_size * image_size), v(image_size * image_size), image;
+    const double HA = M_PI / 4;  // Example Hour Angle in radians
+    const double Dec = M_PI / 6;  // Example Declination in radians
 
+    // Vectors to store coordinates
+    std::vector<double> x_m, y_m, z_m;
+    std::vector<double> u, v, w;
 
+    // Read XYZ coordinates from file
+    readXYZCoordinates("data/large_xyz_coordinates.csv", x_m, y_m, z_m);
 
-
-    double scale_factor = 1000.0 / (image_size - 1);
-    // Create an impulse in the center of the visibility plane
-    for (int i = 0; i < image_size; ++i) {
-        for (int j = 0; j < image_size; ++j) {
-            int index = i * image_size + j;
-            u[index] = i * scale_factor;  // Scale u coordinates
-            v[index] = j * scale_factor;  // Scale v coordinates
-            if (i == image_size / 2 && j == image_size / 2) {
-                visibilities[index] = std::complex<double>(1, 0); // Impulse at the center
-            }
-        }
-    }
-    /*const int num_visibilities = 255;  // A large number of visibilities
-
-    // Create vectors to store visibility data and coordinates
-    std::vector<std::complex<double>> visibilities(num_visibilities+1, std::complex<double>(0, 0));
-    std::vector<double> u(num_visibilities+1), v(num_visibilities+1), image(image_size * image_size);
-
-    std::default_random_engine generator;
-    std::uniform_real_distribution<double> distribution(0.0, 1000.0);
-
-    // Randomly generate u and v coordinates within the range [0, 1000]
-    for (int i = 0; i < num_visibilities; ++i) {
-        u[i] = distribution(generator);
-        v[i] = distribution(generator);
-        // Optionally set visibilities, e.g., all to 1 or some pattern
-        visibilities[i] = std::complex<double>(0, 0);
+    if (x_m.empty() || y_m.empty() || z_m.empty()) {
+        std::cerr << "Error: No data read from file.\n";
+        return 1;
     }
 
-    // Add an extra visibility at (0, 0) with visibility 1
-    u[num_visibilities] = 0;
-    v[num_visibilities] = 0;
-    visibilities[num_visibilities] = std::complex<double>(1, 0);  // Visibility value of 1 at the origin
+    // Start timing for UVW computation
+    auto start_uvw = std::chrono::high_resolution_clock::now();
 
-    */
+    // Compute UVW coordinates
+    computeUVW(x_m, y_m, z_m, HA, Dec, u, v, w);
+
+    // End timing for UVW computation
+    auto stop_uvw = std::chrono::high_resolution_clock::now();
+    auto duration_uvw = std::chrono::duration_cast<std::chrono::milliseconds>(stop_uvw - start_uvw);
+    std::cout << "UVW computation complete. Execution time: " << duration_uvw.count() << " ms\n";
+
+
+    // Check if the UVW coordinates are computed
+    if (u.empty() || v.empty() || w.empty()) {
+        std::cerr << "Error: UVW coordinates not computed.\n";
+        return 1;
+    }
+
+    // Vectors to store visibility data
+    std::vector<std::complex<double>> visibilities(u.size(), std::complex<double>(1, 0));
+    std::vector<double> image;
 
     // Start timing
     auto start = std::chrono::high_resolution_clock::now();
@@ -60,10 +56,6 @@ int main() {
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     std::cout << "Imaging complete. Execution time: " << duration.count() << " ms\n";
-
-
-    // Output the image to console or file (simple console output here)
-    std::cout << "Imaging complete. Outputting image data:" << std::endl;
 
     // Save the image data to the "data" folder as a CSV file
     std::ofstream outfile("data/image_data_gpu.csv");
@@ -84,14 +76,18 @@ int main() {
         std::cerr << "Error opening file for writing.\n";
     }
 
-
-    /*for (int i = 0; i < image_size; ++i) {
-        for (int j = 0; j < image_size; ++j) {
-            int index = i * image_size + j;
-            std::cout << image[index] << " ";
+    // Save the u and v coordinates to the "data" folder as a CSV file
+    std::ofstream uvfile("data/uv_coordinates_gpu.csv");
+    if (uvfile.is_open()) {
+        uvfile << "u,v\n";  // Write the header
+        for (size_t i = 0; i < u.size(); ++i) {
+            uvfile << u[i] << "," << v[i] << "\n";
         }
-        std::cout << std::endl;
-    }*/
+        uvfile.close();
+        std::cout << "u and v coordinates saved to data/uv_coordinates_gpu.csv\n";
+    } else {
+        std::cerr << "Error opening file for writing.\n";
+    }
+
     return 0;
 }
-

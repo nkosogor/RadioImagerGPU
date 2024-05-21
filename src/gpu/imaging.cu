@@ -4,6 +4,7 @@
 #include <thrust/device_vector.h>
 #include <vector>
 #include <algorithm>
+#include <iostream> 
 
 // This atomicAdd is required if your GPU compute capability is less than 6.0
 #if !defined(__CUDA_ARCH__) || __CUDA_ARCH__ >= 600
@@ -61,6 +62,8 @@ void fftshift(thrust::device_vector<cufftDoubleComplex>& data, int width, int he
     data = temp;
 }
 
+
+
 void uniformImage(const std::vector<std::complex<double>>& visibilities,
                   const std::vector<double>& u, const std::vector<double>& v,
                   int image_size, std::vector<double>& image) {
@@ -69,6 +72,13 @@ void uniformImage(const std::vector<std::complex<double>>& visibilities,
     double uv_resolution = 1 / (image_size * pixel_resolution);
     double uv_max = uv_resolution * image_size / 2;
     double grid_res = 2 * uv_max / image_size;
+
+    // Print the calculated parameters
+    std::cout << "max_uv: " << max_uv << "\n";
+    std::cout << "pixel_resolution: " << pixel_resolution << "\n";
+    std::cout << "uv_resolution: " << uv_resolution << "\n";
+    std::cout << "uv_max: " << uv_max << "\n";
+    std::cout << "grid_res: " << grid_res << "\n";
 
     std::vector<cufftDoubleComplex> host_visibility_grid(image_size * image_size, make_cuDoubleComplex(0.0, 0.0));
 
@@ -91,8 +101,31 @@ void uniformImage(const std::vector<std::complex<double>>& visibilities,
 
     cudaDeviceSynchronize();
 
+    // Print central part of visibility grid after mapping
+    thrust::host_vector<cufftDoubleComplex> h_visibility_grid = d_visibility_grid;
+    std::cout << "Visibility grid after mapping (central part):\n";
+    int center = image_size / 2;
+    for (int i = center - 2; i <= center + 2; ++i) {
+        for (int j = center - 2; j <= center + 2; ++j) {
+            int index = i * image_size + j;
+            std::cout << "(" << h_visibility_grid[index].x << ", " << h_visibility_grid[index].y << ") ";
+        }
+        std::cout << "\n";
+    }
+
     // Apply circular shift before FFT
     fftshift(d_visibility_grid, image_size, image_size);
+
+    // Print central part of visibility grid after first shift
+    h_visibility_grid = d_visibility_grid;
+    std::cout << "Visibility grid after first FFT shift (central part):\n";
+    for (int i = center - 2; i <= center + 2; ++i) {
+        for (int j = center - 2; j <= center + 2; ++j) {
+            int index = i * image_size + j;
+            std::cout << "(" << h_visibility_grid[index].x << ", " << h_visibility_grid[index].y << ") ";
+        }
+        std::cout << "\n";
+    }
 
     cufftHandle plan;
     cufftPlan2d(&plan, image_size, image_size, CUFFT_Z2Z);
@@ -102,12 +135,35 @@ void uniformImage(const std::vector<std::complex<double>>& visibilities,
     // Apply circular shift after FFT
     fftshift(d_visibility_grid, image_size, image_size);
 
+    // Print central part of visibility grid after FFT
+    h_visibility_grid = d_visibility_grid;
+    std::cout << "Visibility grid after FFT (central part):\n";
+    for (int i = center - 2; i <= center + 2; ++i) {
+        for (int j = center - 2; j <= center + 2; ++j) {
+            int index = i * image_size + j;
+            std::cout << "(" << h_visibility_grid[index].x << ", " << h_visibility_grid[index].y << ") ";
+        }
+        std::cout << "\n";
+    }
+
     thrust::host_vector<cufftDoubleComplex> h_output_grid = d_visibility_grid;
 
-    double scale = 1.0;
+    // Normalize by the maximum value in the grid
+    double max_value = 0.0;
+    for (size_t i = 0; i < h_output_grid.size(); ++i) {
+        if (abs(h_output_grid[i].x) > max_value) {
+            max_value = abs(h_output_grid[i].x);
+        }
+    }
+
+    image.resize(image_size * image_size);
+    for (size_t i = 0; i < image.size(); ++i) {
+        image[i] = h_output_grid[i].x / max_value; // Real part of the complex number normalized
+    }
+    
+    /*double scale = 1.0 / (image_size * image_size);  // Ensure the normalization matches the CPU implementation
     image.resize(image_size * image_size);
     for (size_t i = 0; i < image.size(); ++i) {
         image[i] = h_output_grid[i].x * scale; // Real part of the complex number
-    }
+    }*/
 }
-
