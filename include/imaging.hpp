@@ -23,4 +23,8 @@ __global__ void mapVisibilities(cufftDoubleComplex* grid, const cufftDoubleCompl
 
 void fftshift(thrust::device_vector<cufftDoubleComplex>& data, int width, int height);
 
+
+void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, const std::vector<double>& z_m, 
+                double HA, double Dec, std::vector<double>& u, std::vector<double>& v, std::vector<double>& w);
+
 #endif

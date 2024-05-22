@@ -1,43 +1,23 @@
-# Directory names
-SRCDIR = src
-OBJDIR = obj
-BINDIR = bin
-INCDIR = include
+NVCC = /usr/local/cuda/bin/nvcc
+NVCC_FLAGS = -arch=sm_52 -I/usr/local/cuda/include -Iinclude
+LD_FLAGS = -L/usr/local/cuda/lib64 -lcudart -lcufft
 
-# CUDA path and configuration
-CUDA_PATH = /usr/local/cuda
-CUDA_INC_PATH = $(CUDA_PATH)/include
-CUDA_LIB_PATH = $(CUDA_PATH)/lib64
+SRC_CUDA = src/main.cu src/imaging.cu
+SRC_CPP = src/data_io.cpp
+OBJ_CUDA = $(SRC_CUDA:.cu=.o)
+OBJ_CPP = $(SRC_CPP:.cpp=.o)
+TARGET = bin/RadioImager
 
-NVCC = $(CUDA_PATH)/bin/nvcc
-GPP = g++
+all: clean $(TARGET)
 
-# Compiler flags
-NVCC_FLAGS = -c -I$(INCDIR) -I$(CUDA_INC_PATH) --gpu-architecture=compute_52 --gpu-code=sm_52 -dc
-GPP_FLAGS = -c -I$(INCDIR) -I$(CUDA_INC_PATH) -std=c++11 -Wall -O2
-LINK_FLAGS = -L$(CUDA_LIB_PATH) -lcudart -lcufft
+$(TARGET): $(OBJ_CUDA) $(OBJ_CPP)
+	$(NVCC) $(OBJ_CUDA) $(OBJ_CPP) -o $@ $(LD_FLAGS)
 
-# File names
-EXECUTABLE = RadioImager
-CUDA_SOURCES = $(wildcard $(SRCDIR)/*.cu)
-CPP_SOURCES = $(wildcard $(SRCDIR)/*.cpp)
-CUDA_OBJECTS = $(CUDA_SOURCES:$(SRCDIR)/%.cu=$(OBJDIR)/%.o)
-CPP_OBJECTS = $(CPP_SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-ALL_OBJECTS = $(CUDA_OBJECTS) $(CPP_OBJECTS)
+%.o: %.cu
+	$(NVCC) $(NVCC_FLAGS) -c $< -o $@
 
-# Rules
-all: $(BINDIR)/$(EXECUTABLE)
-
-$(BINDIR)/$(EXECUTABLE): $(ALL_OBJECTS)
-	$(GPP) $^ -o $@ $(LINK_FLAGS)
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.cu
-	$(NVCC) $(NVCC_FLAGS) $< -o $@
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(GPP) $(GPP_FLAGS) $< -o $@
+%.o: %.cpp
+	g++ -c $< -o $@ -Iinclude
 
 clean:
-	rm -f $(OBJDIR)/*.o $(BINDIR)/$(EXECUTABLE)
-
-.PHONY: all clean
+	rm -f $(OBJ_CUDA) $(OBJ_CPP) $(TARGET)
