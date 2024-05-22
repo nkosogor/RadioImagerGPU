@@ -35,8 +35,6 @@ int main() {
     auto duration_uvw = std::chrono::duration_cast<std::chrono::milliseconds>(stop_uvw - start_uvw);
     std::cout << "UVW computation complete. Execution time: " << duration_uvw.count() << " ms\n";
 
-
-
     // Check if the UVW coordinates are computed
     if (u.empty() || v.empty() || w.empty()) {
         std::cerr << "Error: UVW coordinates not computed.\n";
@@ -46,7 +44,7 @@ int main() {
     // Vectors to store visibility data
     std::vector<std::complex<double>> visibilities(u.size(), std::complex<double>(1, 0));
     std::vector<double> image;
-    std::cout << "Vis length " << u.size() <<"\n";
+    std::cout << "Vis length " << u.size() << "\n";
 
     // Start timing
     auto start = std::chrono::high_resolution_clock::now();

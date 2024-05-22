@@ -182,3 +182,63 @@ void uniformImage(const std::vector<std::complex<double>>& visibilities,
     cudaStreamDestroy(stream1);
     cudaStreamDestroy(stream2);
 }
+
+
+
+__global__ void computeUVWKernel(const double* x_m, const double* y_m, const double* z_m, 
+                                 double HA, double Dec, double* u, double* v, double* w, int N) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int i = idx / (N - 1);
+    int j = idx % (N - 1);
+    if (j >= i) j++;
+
+    if (i < N && j < N) {
+        double dx = x_m[j] - x_m[i];
+        double dy = y_m[j] - y_m[i];
+        double dz = z_m[j] - z_m[i];
+
+        double u_ij = dx * sin(HA) + dy * cos(HA);
+        double v_ij = -dx * sin(Dec) * cos(HA) + dy * sin(Dec) * sin(HA) + dz * cos(Dec);
+        double w_ij = dx * cos(Dec) * cos(HA) - dy * cos(Dec) * sin(HA) + dz * sin(Dec);
+
+        int index = i * (N - 1) + j - (j > i);
+        u[index] = u_ij;
+        v[index] = v_ij;
+        w[index] = w_ij;
+    }
+}
+
+void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, const std::vector<double>& z_m, 
+                double HA, double Dec, std::vector<double>& u, std::vector<double>& v, std::vector<double>& w) {
+    int N = x_m.size();
+    int num_baselines = N * (N - 1) / 2;
+
+    thrust::device_vector<double> d_x_m = x_m;
+    thrust::device_vector<double> d_y_m = y_m;
+    thrust::device_vector<double> d_z_m = z_m;
+    thrust::device_vector<double> d_u(num_baselines);
+    thrust::device_vector<double> d_v(num_baselines);
+    thrust::device_vector<double> d_w(num_baselines);
+
+    int threadsPerBlock = 256;
+    int blocksPerGrid = (num_baselines + threadsPerBlock - 1) / threadsPerBlock;
+
+    computeUVWKernel<<<blocksPerGrid, threadsPerBlock>>>(thrust::raw_pointer_cast(d_x_m.data()), 
+                                                         thrust::raw_pointer_cast(d_y_m.data()), 
+                                                         thrust::raw_pointer_cast(d_z_m.data()), 
+                                                         HA, Dec, 
+                                                         thrust::raw_pointer_cast(d_u.data()), 
+                                                         thrust::raw_pointer_cast(d_v.data()), 
+                                                         thrust::raw_pointer_cast(d_w.data()), N);
+
+    cudaDeviceSynchronize();
+
+    // Copy data from thrust::device_vector to std::vector
+    u.resize(num_baselines);
+    v.resize(num_baselines);
+    w.resize(num_baselines);
+
+    thrust::copy(d_u.begin(), d_u.end(), u.begin());
+    thrust::copy(d_v.begin(), d_v.end(), v.begin());
+    thrust::copy(d_w.begin(), d_w.end(), w.begin());
+}

@@ -28,7 +28,7 @@ void readXYZCoordinates(const std::string& filename,
     file.close();
 }
 
-void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, const std::vector<double>& z_m, 
+/*void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, const std::vector<double>& z_m, 
                 double HA, double Dec, std::vector<double>& u, std::vector<double>& v, std::vector<double>& w) {
     int N = x_m.size();
     for (int i = 0; i < N; ++i) {
@@ -51,4 +51,5 @@ void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, 
             w.push_back(-w_ij);
         }
     }
-}
+}*/
+
