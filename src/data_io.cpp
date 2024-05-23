@@ -4,6 +4,14 @@
 #include <iostream>
 #include <cmath>
 
+/**
+ * @brief Reads XYZ coordinates from a CSV file.
+ * 
+ * @param filename The name of the CSV file to read from.
+ * @param x_m Vector to store the X coordinates.
+ * @param y_m Vector to store the Y coordinates.
+ * @param z_m Vector to store the Z coordinates.
+ */
 void readXYZCoordinates(const std::string& filename, 
                         std::vector<double>& x_m, 
                         std::vector<double>& y_m, 
@@ -28,28 +36,5 @@ void readXYZCoordinates(const std::string& filename,
     file.close();
 }
 
-/*void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, const std::vector<double>& z_m, 
-                double HA, double Dec, std::vector<double>& u, std::vector<double>& v, std::vector<double>& w) {
-    int N = x_m.size();
-    for (int i = 0; i < N; ++i) {
-        for (int j = i + 1; j < N; ++j) {
-            double dx = x_m[j] - x_m[i];
-            double dy = y_m[j] - y_m[i];
-            double dz = z_m[j] - z_m[i];
 
-            double u_ij = dx * sin(HA) + dy * cos(HA);
-            double v_ij = -dx * sin(Dec) * cos(HA) + dy * sin(Dec) * sin(HA) + dz * cos(Dec);
-            double w_ij = dx * cos(Dec) * cos(HA) - dy * cos(Dec) * sin(HA) + dz * sin(Dec);
-
-            u.push_back(u_ij);
-            v.push_back(v_ij);
-            w.push_back(w_ij);
-
-            // Add conjugate points
-            u.push_back(-u_ij);
-            v.push_back(-v_ij);
-            w.push_back(-w_ij);
-        }
-    }
-}*/
 
