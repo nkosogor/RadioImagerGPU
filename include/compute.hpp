@@ -13,7 +13,7 @@
 // Function declarations
 void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibilities_batch,
                   const std::vector<std::vector<double>>& u_batch, const std::vector<std::vector<double>>& v_batch,
-                  int image_size, std::vector<std::vector<double>>& images);
+                  int image_size, std::vector<std::vector<double>>& images, bool use_predefined_params);
 
 __global__ void mapVisibilitiesMultiDir(cufftDoubleComplex* grid, const cufftDoubleComplex* visibilities, const double* u, const double* v, double uv_max, double grid_res, int image_size, int num_visibilities, int num_directions);
 

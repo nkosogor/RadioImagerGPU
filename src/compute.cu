@@ -165,7 +165,7 @@ __global__ void mapVisibilitiesMultiDir(cufftDoubleComplex* grid, const cufftDou
  */
 void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibilities_batch,
                   const std::vector<std::vector<double>>& u_batch, const std::vector<std::vector<double>>& v_batch,
-                  int image_size, std::vector<std::vector<double>>& images) {
+                  int image_size, std::vector<std::vector<double>>& images, bool use_predefined_params) {
     int num_batches = visibilities_batch.size();
     images.resize(num_batches);
 
@@ -178,7 +178,7 @@ void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibili
         thrust::copy(v_batch[b].begin(), v_batch[b].end(), d_v.begin() + b * v_batch[0].size());
     }
 
-    double max_uv = *std::max_element(u_batch[0].begin(), u_batch[0].end());
+    double max_uv = use_predefined_params ? config::PREDEFINED_MAX_UV : *std::max_element(u_batch[0].begin(), u_batch[0].end());
     double pixel_resolution = (0.20 / max_uv) / 3;
     double uv_resolution = 1 / (image_size * pixel_resolution);
     double uv_max = uv_resolution * image_size / 2;
@@ -304,6 +304,7 @@ __global__ void computeUVWKernel(const double* x_m, const double* y_m, const dou
  * @param u Output U coordinates for multiple directions.
  * @param v Output V coordinates for multiple directions.
  * @param w Output W coordinates for multiple directions.
+* @param use_predefined_params Flag to determine if predefined parameters should be used.
  */
 void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, const std::vector<double>& z_m, 
                 const std::vector<double>& HAs, const std::vector<double>& Decs, 
