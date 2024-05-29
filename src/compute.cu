@@ -9,6 +9,41 @@
 #include <cuda_runtime.h>
 
 /**
+ * @brief Macro to check CUFFT errors and display an error message if an error occurs.
+ * 
+ * @param call CUFFT function call.
+ */
+#define CHECK_CUFFT(call) { \
+    cufftResult err = call; \
+    if (err != CUFFT_SUCCESS) { \
+        std::cerr << "CUFFT Error: " << cufftGetErrorString(err) << " at " << __FILE__ << ":" << __LINE__ << std::endl; \
+        exit(EXIT_FAILURE); \
+    } \
+}
+
+/**
+ * @brief Get the error string for a given CUFFT error code.
+ * 
+ * @param error CUFFT error code.
+ * @return const char* Corresponding error string.
+ */
+const char* cufftGetErrorString(cufftResult error) {
+    switch (error) {
+        case CUFFT_SUCCESS: return "CUFFT_SUCCESS";
+        case CUFFT_INVALID_PLAN: return "CUFFT_INVALID_PLAN";
+        case CUFFT_ALLOC_FAILED: return "CUFFT_ALLOC_FAILED";
+        case CUFFT_INVALID_TYPE: return "CUFFT_INVALID_TYPE";
+        case CUFFT_INVALID_VALUE: return "CUFFT_INVALID_VALUE";
+        case CUFFT_INTERNAL_ERROR: return "CUFFT_INTERNAL_ERROR";
+        case CUFFT_EXEC_FAILED: return "CUFFT_EXEC_FAILED";
+        case CUFFT_SETUP_FAILED: return "CUFFT_SETUP_FAILED";
+        case CUFFT_INVALID_SIZE: return "CUFFT_INVALID_SIZE";
+        case CUFFT_UNALIGNED_DATA: return "CUFFT_UNALIGNED_DATA";
+        default: return "Unknown CUFFT error";
+    }
+}
+
+/**
  * @brief Check CUDA error and print a message if an error occurs.
  * 
  * @param err CUDA error code.
@@ -21,6 +56,11 @@ void checkCudaError(cudaError_t err, const char* msg) {
     }
 }
 
+/**
+ * @brief Macro to check CUDA errors and display an error message if an error occurs.
+ * 
+ * @param call CUDA function call.
+ */
 #define CHECK_CUDA(call) { \
     cudaError_t err = call; \
     if (err != cudaSuccess) { \
@@ -42,7 +82,6 @@ __device__ double atomicAdd(double* address, double val) {
     return __longlong_as_double(old);
 }
 #endif
-
 
 
 /**
@@ -162,6 +201,7 @@ __global__ void mapVisibilitiesMultiDir(cufftDoubleComplex* grid, const cufftDou
  * @param v_batch V coordinates for multiple directions.
  * @param image_size Size of the output image.
  * @param images Output images.
+ * @param use_predefined_params Flag to determine if predefined parameters should be used.
  */
 void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibilities_batch,
                   const std::vector<std::vector<double>>& u_batch, const std::vector<std::vector<double>>& v_batch,
@@ -169,13 +209,28 @@ void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibili
     int num_batches = visibilities_batch.size();
     images.resize(num_batches);
 
-    thrust::device_vector<cufftDoubleComplex> d_visibility_grid(num_batches * image_size * image_size, make_cuDoubleComplex(0.0, 0.0));
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    cufftDoubleComplex* d_visibility_grid;
+    size_t memSize = num_batches * image_size * image_size * sizeof(cufftDoubleComplex);
+    CHECK_CUDA(cudaMalloc((void**)&d_visibility_grid, memSize));
+    CHECK_CUDA(cudaMemset(d_visibility_grid, 0, memSize)); // Initialize memory to zero
+
     thrust::device_vector<double> d_u(num_batches * u_batch[0].size());
     thrust::device_vector<double> d_v(num_batches * v_batch[0].size());
 
     for (int b = 0; b < num_batches; ++b) {
-        thrust::copy(u_batch[b].begin(), u_batch[b].end(), d_u.begin() + b * u_batch[0].size());
-        thrust::copy(v_batch[b].begin(), v_batch[b].end(), d_v.begin() + b * v_batch[0].size());
+        CHECK_CUDA(cudaMemcpyAsync(thrust::raw_pointer_cast(d_u.data()) + b * u_batch[0].size(), 
+                                   u_batch[b].data(), 
+                                   u_batch[b].size() * sizeof(double), 
+                                   cudaMemcpyHostToDevice, 
+                                   stream));
+        CHECK_CUDA(cudaMemcpyAsync(thrust::raw_pointer_cast(d_v.data()) + b * v_batch[0].size(), 
+                                   v_batch[b].data(), 
+                                   v_batch[b].size() * sizeof(double), 
+                                   cudaMemcpyHostToDevice, 
+                                   stream));
     }
 
     double max_uv = use_predefined_params ? config::PREDEFINED_MAX_UV : *std::max_element(u_batch[0].begin(), u_batch[0].end());
@@ -184,14 +239,15 @@ void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibili
     double uv_max = uv_resolution * image_size / 2;
     double grid_res = 2 * uv_max / image_size;
 
-    int threadsPerBlock = 256;
+    int threadsPerBlock = 1024;
     size_t sharedMemSize = threadsPerBlock * (sizeof(double) * 2 + sizeof(cufftDoubleComplex));
-    size_t chunk_size = image_size * image_size;
+    size_t chunk_size = 1000000; // Adjust this chunk size based on experimentation
     size_t num_chunks = (visibilities_batch[0].size() + chunk_size - 1) / chunk_size;
 
-    cudaStream_t stream1, stream2;
-    cudaStreamCreate(&stream1);
-    cudaStreamCreate(&stream2);
+    std::vector<cudaStream_t> streams(num_chunks);
+    for (size_t i = 0; i < num_chunks; ++i) {
+        cudaStreamCreate(&streams[i]);
+    }
 
     for (size_t chunk = 0; chunk < num_chunks; ++chunk) {
         size_t start = chunk * chunk_size;
@@ -207,25 +263,34 @@ void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibili
         thrust::device_vector<cufftDoubleComplex> d_vis_chunk = vis_chunk_cufft;
 
         dim3 blocksPerGrid((end - start + threadsPerBlock - 1) / threadsPerBlock, num_batches);
-        mapVisibilitiesMultiDir<<<blocksPerGrid, threadsPerBlock, sharedMemSize, stream1>>>(thrust::raw_pointer_cast(d_visibility_grid.data()),
-                                                                                            thrust::raw_pointer_cast(d_vis_chunk.data()),
-                                                                                            thrust::raw_pointer_cast(d_u.data()),
-                                                                                            thrust::raw_pointer_cast(d_v.data()),
-                                                                                            uv_max, grid_res, image_size, end - start, num_batches);
+        mapVisibilitiesMultiDir<<<blocksPerGrid, threadsPerBlock, sharedMemSize, streams[chunk]>>>(
+            d_visibility_grid,
+            thrust::raw_pointer_cast(d_vis_chunk.data()),
+            thrust::raw_pointer_cast(d_u.data()),
+            thrust::raw_pointer_cast(d_v.data()),
+            uv_max, grid_res, image_size, end - start, num_batches);
+
         CHECK_CUDA(cudaGetLastError());
-        CHECK_CUDA(cudaStreamSynchronize(stream1));
     }
 
+    for (size_t i = 0; i < num_chunks; ++i) {
+        CHECK_CUDA(cudaStreamSynchronize(streams[i]));
+        cudaStreamDestroy(streams[i]);
+    }
+
+    cudaStream_t stream2;
+    cudaStreamCreate(&stream2);
+
     for (int b = 0; b < num_batches; ++b) {
-        thrust::device_vector<cufftDoubleComplex> d_visibility_grid_batch(d_visibility_grid.begin() + b * image_size * image_size, d_visibility_grid.begin() + (b + 1) * image_size * image_size);
+        thrust::device_vector<cufftDoubleComplex> d_visibility_grid_batch(d_visibility_grid + b * image_size * image_size, d_visibility_grid + (b + 1) * image_size * image_size);
 
         fftshift(d_visibility_grid_batch, image_size, image_size);
 
         cufftHandle plan;
-        cufftPlan2d(&plan, image_size, image_size, CUFFT_Z2Z);
+        CHECK_CUFFT(cufftPlan2d(&plan, image_size, image_size, CUFFT_Z2Z));
         cufftSetStream(plan, stream2);
-        cufftExecZ2Z(plan, thrust::raw_pointer_cast(d_visibility_grid_batch.data()), thrust::raw_pointer_cast(d_visibility_grid_batch.data()), CUFFT_INVERSE);
-        cufftDestroy(plan);
+        CHECK_CUFFT(cufftExecZ2Z(plan, thrust::raw_pointer_cast(d_visibility_grid_batch.data()), thrust::raw_pointer_cast(d_visibility_grid_batch.data()), CUFFT_INVERSE));
+        CHECK_CUFFT(cufftDestroy(plan));
 
         fftshift(d_visibility_grid_batch, image_size, image_size);
 
@@ -244,8 +309,8 @@ void uniformImage(const std::vector<std::vector<std::complex<double>>>& visibili
         }
     }
 
-    cudaStreamDestroy(stream1);
     cudaStreamDestroy(stream2);
+    cudaFree(d_visibility_grid);
 }
 
 /**
@@ -304,7 +369,7 @@ __global__ void computeUVWKernel(const double* x_m, const double* y_m, const dou
  * @param u Output U coordinates for multiple directions.
  * @param v Output V coordinates for multiple directions.
  * @param w Output W coordinates for multiple directions.
-* @param use_predefined_params Flag to determine if predefined parameters should be used.
+ * @param use_predefined_params Flag to determine if predefined parameters should be used.
  */
 void computeUVW(const std::vector<double>& x_m, const std::vector<double>& y_m, const std::vector<double>& z_m, 
                 const std::vector<double>& HAs, const std::vector<double>& Decs, 

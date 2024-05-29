@@ -48,6 +48,10 @@ int main(int argc, char* argv[]) {
         .default_value(std::string("data/images_gpu"))
         .help("Directory to save images.");
 
+    program.add_argument("--save_images")
+        .default_value(std::string("true"))
+        .help("Save images (default: true).");
+
     try {
         program.parse_args(argc, argv);
     } catch (const std::runtime_error& err) {
@@ -64,6 +68,8 @@ int main(int argc, char* argv[]) {
     const bool output_uvw = (output_uvw_str == "true");
     const std::string uvw_dir = program.get<std::string>("--uvw_dir");
     const std::string image_dir = program.get<std::string>("--image_dir");
+    const std::string save_images_str = program.get<std::string>("--save_images");
+    const bool save_images = (save_images_str == "true");
 
     std::vector<double> HAs, Decs;
     readDirections(directions_path, HAs, Decs);
@@ -99,7 +105,17 @@ int main(int argc, char* argv[]) {
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     std::cout << "Imaging complete. Execution time: " << duration.count() << " ms\n";
 
-    saveImages(images, image_size, image_dir);
+    std::ofstream log_file("output.log", std::ios_base::app);
+    log_file << "UVW computation time: " << duration_uvw.count() << " ms\n";
+    log_file << "Imaging time: " << duration.count() << " ms\n";
+    log_file.close();
+
+    if (save_images) {
+        saveImages(images, image_size, image_dir);
+    }
+
+    // Reset the GPU
+    cudaDeviceReset();
 
     return 0;
 }
