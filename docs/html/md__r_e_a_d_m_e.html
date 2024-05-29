@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.11.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>RadioImagerGPU: File Members</title>
+<title>RadioImagerGPU: RadioImagerGPU</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -56,8 +56,6 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-</div><!-- top -->
-<div id="doc-content">
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
 $(function(){ initResizable(false); });
@@ -84,23 +82,61 @@ $(function(){ initResizable(false); });
 </div>
 </div>
 
+</div><!-- top -->
+<div id="doc-content">
+<div><div class="header">
+  <div class="headertitle"><div class="title">RadioImagerGPU</div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all functions with links to the files they belong to:</div><ul>
-<li>checkCudaError()&#160;:&#160;<a class="el" href="compute_8cu.html#a39941fcedc7965d9098c2bd304b15319">compute.cu</a></li>
-<li>computeUVW()&#160;:&#160;<a class="el" href="compute_8cu.html#ac97a0ab1d3d75391b1531ecaee576670">compute.cu</a>, <a class="el" href="compute_8hpp.html#ac97a0ab1d3d75391b1531ecaee576670">compute.hpp</a></li>
-<li>computeUVWKernel()&#160;:&#160;<a class="el" href="compute_8cu.html#a4a60d72f833374f3e6ebddb0800c6ff7">compute.cu</a></li>
-<li>cufftGetErrorString()&#160;:&#160;<a class="el" href="compute_8cu.html#ab7f649a524c81c57f2043732eb2bd3cc">compute.cu</a></li>
-<li>fftshift()&#160;:&#160;<a class="el" href="compute_8cu.html#a326c197aeb03599468303d8c370fb1cb">compute.cu</a>, <a class="el" href="compute_8hpp.html#a326c197aeb03599468303d8c370fb1cb">compute.hpp</a></li>
-<li>fftshift_kernel()&#160;:&#160;<a class="el" href="compute_8cu.html#a10ecfa736a2d3faef21bd0bca74654fc">compute.cu</a></li>
-<li>main()&#160;:&#160;<a class="el" href="main_8cu.html#a0ddf1224851353fc92bfbff6f499fa97">main.cu</a></li>
-<li>mapVisibilitiesMultiDir()&#160;:&#160;<a class="el" href="compute_8cu.html#a9a5c8b9385f3ce12c452d99745355c90">compute.cu</a>, <a class="el" href="compute_8hpp.html#a9a5c8b9385f3ce12c452d99745355c90">compute.hpp</a></li>
-<li>readDirections()&#160;:&#160;<a class="el" href="data__io_8cpp.html#ac9508fecd68ba98a149298e03ace80db">data_io.cpp</a>, <a class="el" href="data__io_8hpp.html#ac9508fecd68ba98a149298e03ace80db">data_io.hpp</a></li>
-<li>readXYZCoordinates()&#160;:&#160;<a class="el" href="data__io_8cpp.html#a8e28c8b94864e7ff0dabdb6e273b99bd">data_io.cpp</a>, <a class="el" href="data__io_8hpp.html#a8e28c8b94864e7ff0dabdb6e273b99bd">data_io.hpp</a></li>
-<li>saveImages()&#160;:&#160;<a class="el" href="data__io_8cpp.html#a551f1a8d69d660f9e264e1690da548d6">data_io.cpp</a>, <a class="el" href="data__io_8hpp.html#a551f1a8d69d660f9e264e1690da548d6">data_io.hpp</a></li>
-<li>saveUVWCoordinates()&#160;:&#160;<a class="el" href="data__io_8cpp.html#a74f86739550f0372639f07881dbeec87">data_io.cpp</a>, <a class="el" href="data__io_8hpp.html#a74f86739550f0372639f07881dbeec87">data_io.hpp</a></li>
-<li>uniformImage()&#160;:&#160;<a class="el" href="compute_8cu.html#a737c297f1d2abeafe53b95f42999f2b7">compute.cu</a>, <a class="el" href="compute_8hpp.html#a737c297f1d2abeafe53b95f42999f2b7">compute.hpp</a></li>
+<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> ...</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Overview</h1>
+<p>...</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+System Requirements</h1>
+<p>To fully utilize the GPU acceleration capabilities, ensure you have a compatible NVIDIA GPU. Below is the hardware and software setup used for developing and testing this project:</p>
+<h2><a class="anchor" id="autotoc_md3"></a>
+Operating System</h2>
+<ul>
+<li><b>OS:</b> Ubuntu 22.04.4 LTS (Jammy)</li>
+<li><b>Kernel:</b> Linux 6.5.0-28-generic</li>
 </ul>
-</div><!-- contents -->
+<h2><a class="anchor" id="autotoc_md4"></a>
+NVIDIA Driver and GPU</h2>
+<ul>
+<li><b>Driver Version:</b> 550.54.15</li>
+<li><b>CUDA Version:</b> 12.4</li>
+<li><b>GPUs:</b>: NVIDIA GeForce GTX TITAN X (2 units, 12 GB each)</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+CUDA Toolkit</h2>
+<ul>
+<li><b>Version:</b> CUDA 12.4</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md6"></a>
+Python Environment</h2>
+<ul>
+<li><b>Python Version:</b> 3.10.12</li>
+<li>The required Python packages are listed in <code>requirements.txt</code>.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md7"></a>
+Installation and Building the Project</h2>
+<p>Clone the repository and navigate to the project directory:</p>
+<div class="fragment"><div class="line">git clone https://github.com/nkosogor/RadioImagerGPU.git</div>
+<div class="line">cd RadioImagerGPU</div>
+<div class="line">pip install -r requirements.txt</div>
+</div><!-- fragment --><p> Use CMake to configure and build the project:</p>
+<div class="fragment"><div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">cmake ..</div>
+<div class="line">make</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+Running Tests</h1>
+<p>To run the tests and compare images generated by CUDA and Python implementations, execute the following script from the root of the project:</p>
+<div class="fragment"><div class="line">python3 tests/compare_images.py</div>
+</div><!-- fragment --><p>For detailed information about the tests, refer to <a class="el" href="tests_2_r_e_a_d_m_e_8md.html">Tests README</a>. </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.11.0

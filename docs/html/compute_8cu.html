@@ -107,11 +107,18 @@ $(function(){ initResizable(false); });
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a09c3199063fd21df2d5ddecae6a8b884" id="r_a09c3199063fd21df2d5ddecae6a8b884"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09c3199063fd21df2d5ddecae6a8b884">CHECK_CUFFT</a>(call)</td></tr>
+<tr class="memdesc:a09c3199063fd21df2d5ddecae6a8b884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to check CUFFT errors and display an error message if an error occurs.  <br /></td></tr>
+<tr class="separator:a09c3199063fd21df2d5ddecae6a8b884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51204a79b758abb43c371167a2adc91b" id="r_a51204a79b758abb43c371167a2adc91b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51204a79b758abb43c371167a2adc91b">CHECK_CUDA</a>(call)</td></tr>
+<tr class="memdesc:a51204a79b758abb43c371167a2adc91b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to check CUDA errors and display an error message if an error occurs.  <br /></td></tr>
 <tr class="separator:a51204a79b758abb43c371167a2adc91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ab7f649a524c81c57f2043732eb2bd3cc" id="r_ab7f649a524c81c57f2043732eb2bd3cc"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7f649a524c81c57f2043732eb2bd3cc">cufftGetErrorString</a> (cufftResult error)</td></tr>
+<tr class="memdesc:ab7f649a524c81c57f2043732eb2bd3cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the error string for a given CUFFT error code.  <br /></td></tr>
+<tr class="separator:ab7f649a524c81c57f2043732eb2bd3cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39941fcedc7965d9098c2bd304b15319" id="r_a39941fcedc7965d9098c2bd304b15319"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39941fcedc7965d9098c2bd304b15319">checkCudaError</a> (cudaError_t err, const char *msg)</td></tr>
 <tr class="memdesc:a39941fcedc7965d9098c2bd304b15319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check CUDA error and print a message if an error occurs.  <br /></td></tr>
 <tr class="separator:a39941fcedc7965d9098c2bd304b15319"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,6 +164,47 @@ Functions</h2></td></tr>
 <div class="line">    } \</div>
 <div class="line">}</div>
 </div><!-- fragment -->
+<p>Macro to check CUDA errors and display an error message if an error occurs. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">call</td><td>CUDA function call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a09c3199063fd21df2d5ddecae6a8b884" name="a09c3199063fd21df2d5ddecae6a8b884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09c3199063fd21df2d5ddecae6a8b884">&#9670;&#160;</a></span>CHECK_CUFFT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CHECK_CUFFT</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>call</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    { \</div>
+<div class="line">    cufftResult err = call; \</div>
+<div class="line">    if (err != CUFFT_SUCCESS) { \</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;CUFFT Error: &quot;</span> &lt;&lt; <a class="code hl_function" href="#ab7f649a524c81c57f2043732eb2bd3cc">cufftGetErrorString</a>(err) &lt;&lt; <span class="stringliteral">&quot; at &quot;</span> &lt;&lt; __FILE__ &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; __LINE__ &lt;&lt; std::endl; \</div>
+<div class="line">        exit(EXIT_FAILURE); \</div>
+<div class="line">    } \</div>
+<div class="line">}</div>
+<div class="ttc" id="acompute_8cu_html_ab7f649a524c81c57f2043732eb2bd3cc"><div class="ttname"><a href="#ab7f649a524c81c57f2043732eb2bd3cc">cufftGetErrorString</a></div><div class="ttdeci">const char * cufftGetErrorString(cufftResult error)</div><div class="ttdoc">Get the error string for a given CUFFT error code.</div><div class="ttdef"><b>Definition</b> compute.cu:30</div></div>
+</div><!-- fragment -->
+<p>Macro to check CUFFT errors and display an error message if an error occurs. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">call</td><td>CUFFT function call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
@@ -332,6 +380,32 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ab7f649a524c81c57f2043732eb2bd3cc" name="ab7f649a524c81c57f2043732eb2bd3cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7f649a524c81c57f2043732eb2bd3cc">&#9670;&#160;</a></span>cufftGetErrorString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * cufftGetErrorString </td>
+          <td>(</td>
+          <td class="paramtype">cufftResult</td>          <td class="paramname"><span class="paramname"><em>error</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the error string for a given CUFFT error code. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">error</td><td>CUFFT error code. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>const char* Corresponding error string. </dd></dl>
 
 </div>
 </div>
@@ -544,6 +618,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">v_batch</td><td>V coordinates for multiple directions. </td></tr>
     <tr><td class="paramname">image_size</td><td>Size of the output image. </td></tr>
     <tr><td class="paramname">images</td><td>Output images. </td></tr>
+    <tr><td class="paramname">use_predefined_params</td><td>Flag to determine if predefined parameters should be used. </td></tr>
   </table>
   </dd>
 </dl>
