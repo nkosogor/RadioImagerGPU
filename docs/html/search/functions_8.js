@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['uniform_5fimage_0',['uniform_image',['../namespaceimaging__cpu.html#a8880d1e15e296e6f7eb00968cec07252',1,'imaging_cpu']]],
+  ['uniformimage_1',['uniformImage',['../compute_8cu.html#a737c297f1d2abeafe53b95f42999f2b7',1,'uniformImage(const std::vector&lt; std::vector&lt; std::complex&lt; double &gt; &gt; &gt; &amp;visibilities_batch, const std::vector&lt; std::vector&lt; double &gt; &gt; &amp;u_batch, const std::vector&lt; std::vector&lt; double &gt; &gt; &amp;v_batch, int image_size, std::vector&lt; std::vector&lt; double &gt; &gt; &amp;images, bool use_predefined_params):&#160;compute.cu'],['../compute_8hpp.html#a737c297f1d2abeafe53b95f42999f2b7',1,'uniformImage(const std::vector&lt; std::vector&lt; std::complex&lt; double &gt; &gt; &gt; &amp;visibilities_batch, const std::vector&lt; std::vector&lt; double &gt; &gt; &amp;u_batch, const std::vector&lt; std::vector&lt; double &gt; &gt; &amp;v_batch, int image_size, std::vector&lt; std::vector&lt; double &gt; &gt; &amp;images, bool use_predefined_params):&#160;compute.cu']]]
+];

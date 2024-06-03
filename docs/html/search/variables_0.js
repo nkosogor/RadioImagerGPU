@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['image_5fsize_0',['IMAGE_SIZE',['../namespaceconfig.html#a3f19557f05398e2d1205e1a7110868dd',1,'config']]]
+  ['config_5fdir_0',['config_dir',['../namespacegenerate__synthetic__data.html#a05549e22d7868175024422f0abe4630a',1,'generate_synthetic_data']]]
 ];

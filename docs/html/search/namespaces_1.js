@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['imaging_5fcpu_0',['imaging_cpu',['../namespaceimaging__cpu.html',1,'']]]
+  ['generate_5fsynthetic_5fdata_0',['generate_synthetic_data',['../namespacegenerate__synthetic__data.html',1,'']]]
 ];

@@ -93,16 +93,20 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:abe48287964b41168d9aaf5dafa841912" id="r_abe48287964b41168d9aaf5dafa841912"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe48287964b41168d9aaf5dafa841912">load_config</a> (config_file)</td></tr>
+<tr class="separator:abe48287964b41168d9aaf5dafa841912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6349c3c5e0826a8163e55393d531c4d7" id="r_a6349c3c5e0826a8163e55393d531c4d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6349c3c5e0826a8163e55393d531c4d7">read_xyz_coordinates</a> (filename)</td></tr>
 <tr class="separator:a6349c3c5e0826a8163e55393d531c4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2c5113ba7140eff9313e96f901c0a7c" id="r_aa2c5113ba7140eff9313e96f901c0a7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2c5113ba7140eff9313e96f901c0a7c">compute_uvw</a> (x_m, y_m, z_m, HAs, Decs, optimized=True)</td></tr>
 <tr class="separator:aa2c5113ba7140eff9313e96f901c0a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72051b761834c1df939be2b9ae150cc9" id="r_a72051b761834c1df939be2b9ae150cc9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72051b761834c1df939be2b9ae150cc9">save_uvw</a> (u, v, w, directory)</td></tr>
 <tr class="separator:a72051b761834c1df939be2b9ae150cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a97f26aa100cb31950ff7bdd40fa154" id="r_a1a97f26aa100cb31950ff7bdd40fa154"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a97f26aa100cb31950ff7bdd40fa154">uniform_image</a> (visibilities, u, v, image_size, use_predefined_params=False, optimized=True)</td></tr>
-<tr class="separator:a1a97f26aa100cb31950ff7bdd40fa154"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8880d1e15e296e6f7eb00968cec07252" id="r_a8880d1e15e296e6f7eb00968cec07252"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8880d1e15e296e6f7eb00968cec07252">uniform_image</a> (visibilities, u, v, image_size, predefined_max_uv, use_predefined_params=False, optimized=True)</td></tr>
+<tr class="separator:a8880d1e15e296e6f7eb00968cec07252"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade3280d94d6d4c7a657672fec8d020fa" id="r_ade3280d94d6d4c7a657672fec8d020fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade3280d94d6d4c7a657672fec8d020fa">save_images</a> (images, image_size, directory, save_as_csv=False)</td></tr>
 <tr class="separator:ade3280d94d6d4c7a657672fec8d020fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1a4eba12b064144c6e31998dbeea92f" id="r_ad1a4eba12b064144c6e31998dbeea92f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1a4eba12b064144c6e31998dbeea92f">str2bool</a> (v)</td></tr>
+<tr class="separator:ad1a4eba12b064144c6e31998dbeea92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f37dc5fa29bfd660ff25479f1cf5df5" id="r_a5f37dc5fa29bfd660ff25479f1cf5df5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f37dc5fa29bfd660ff25479f1cf5df5">main</a> ()</td></tr>
 <tr class="separator:a5f37dc5fa29bfd660ff25479f1cf5df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -154,6 +158,30 @@ optimized (bool): Use optimized implementation if True, else use non-optimized i
 
 Returns:
 tuple: Lists of U, V, and W coordinates for each direction.
+</pre> 
+</div>
+</div>
+<a id="abe48287964b41168d9aaf5dafa841912" name="abe48287964b41168d9aaf5dafa841912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe48287964b41168d9aaf5dafa841912">&#9670;&#160;</a></span>load_config()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">imaging_cpu.load_config </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>config_file</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Load configuration from a JSON file.
+
+Parameters:
+config_file (str): The path to the JSON configuration file.
+
+Returns:
+dict: Configuration dictionary.
 </pre> 
 </div>
 </div>
@@ -272,8 +300,25 @@ directory (str): The directory to save the UVW coordinate files.
 </pre> 
 </div>
 </div>
-<a id="a1a97f26aa100cb31950ff7bdd40fa154" name="a1a97f26aa100cb31950ff7bdd40fa154"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a97f26aa100cb31950ff7bdd40fa154">&#9670;&#160;</a></span>uniform_image()</h2>
+<a id="ad1a4eba12b064144c6e31998dbeea92f" name="ad1a4eba12b064144c6e31998dbeea92f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1a4eba12b064144c6e31998dbeea92f">&#9670;&#160;</a></span>str2bool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">imaging_cpu.str2bool </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>v</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8880d1e15e296e6f7eb00968cec07252" name="a8880d1e15e296e6f7eb00968cec07252"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8880d1e15e296e6f7eb00968cec07252">&#9670;&#160;</a></span>uniform_image()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,6 +346,11 @@ directory (str): The directory to save the UVW coordinate files.
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>predefined_max_uv</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>use_predefined_params</em></span><span class="paramdefsep"> = </span><span class="paramdefval">False</span>, </td>
         </tr>
         <tr>
@@ -316,6 +366,7 @@ Parameters:
 visibilities (array-like): The visibilities for multiple directions.
 u, v (array-like): U and V coordinates.
 image_size (int): The size of the output image.
+predefined_max_uv (float): Predefined maximum UV value.
 use_predefined_params (bool): Whether to use predefined UVW parameters.
 optimized (bool): Use optimized implementation if True, else use non-optimized implementation.
 

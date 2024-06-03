@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['plot_5fimages_0',['plot_images',['../namespacecompare__images.html#af013741d8ec350c80d4ac3f81ec77aac',1,'compare_images']]],
-  ['predefined_5fmax_5fuv_1',['PREDEFINED_MAX_UV',['../namespaceconfig.html#a80c0383ff49ed10fb28b79a501ceefc1',1,'config']]],
-  ['project_2',['Installation and Building the Project',['../index.html#autotoc_md7',1,'']]],
-  ['python_20environment_3',['Python Environment',['../index.html#autotoc_md6',1,'']]]
+  ['non_20optimized_20implementation_0',['Non Optimized Implementation',['../index.html#autotoc_md20',1,'Non-Optimized Implementation'],['../index.html#autotoc_md18',1,'Optimized vs. Non-Optimized Implementation']]],
+  ['nvidia_20driver_20and_20gpu_1',['NVIDIA Driver and GPU',['../index.html#autotoc_md5',1,'']]]
 ];

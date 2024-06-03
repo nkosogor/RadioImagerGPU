@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['main_0',['main',['../main_8cu.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main():&#160;main.cu'],['../namespaceimaging__cpu.html#a5f37dc5fa29bfd660ff25479f1cf5df5',1,'imaging_cpu.main()'],['../namespacecompare__images.html#abcb095ae2b62c461911170dbbc99e705',1,'compare_images.main()']]],
-  ['main_2ecu_1',['main.cu',['../main_8cu.html',1,'']]],
-  ['mapvisibilitiesmultidir_2',['mapVisibilitiesMultiDir',['../compute_8cu.html#a9a5c8b9385f3ce12c452d99745355c90',1,'mapVisibilitiesMultiDir(cufftDoubleComplex *grid, const cufftDoubleComplex *visibilities, const double *u, const double *v, double uv_max, double grid_res, int image_size, int num_visibilities, int num_directions):&#160;compute.cu'],['../compute_8hpp.html#a9a5c8b9385f3ce12c452d99745355c90',1,'mapVisibilitiesMultiDir(cufftDoubleComplex *grid, const cufftDoubleComplex *visibilities, const double *u, const double *v, double uv_max, double grid_res, int image_size, int num_visibilities, int num_directions):&#160;compute.cu']]]
+  ['image_5fsize_0',['IMAGE_SIZE',['../namespaceconfig.html#aae17681762c142576e8b9d78880cb5b8',1,'config']]],
+  ['imaging_5fcpu_1',['imaging_cpu',['../namespaceimaging__cpu.html',1,'']]],
+  ['imaging_5fcpu_2epy_2',['imaging_cpu.py',['../imaging__cpu_8py.html',1,'']]],
+  ['implementation_3',['Implementation',['../index.html#autotoc_md14',1,'CPU Implementation'],['../index.html#autotoc_md9',1,'GPU Implementation'],['../index.html#autotoc_md20',1,'Non-Optimized Implementation'],['../index.html#autotoc_md19',1,'Optimized Implementation'],['../index.html#autotoc_md18',1,'Optimized vs. Non-Optimized Implementation']]],
+  ['installation_20and_20building_20the_20project_4',['Installation and Building the Project',['../index.html#autotoc_md8',1,'']]]
 ];

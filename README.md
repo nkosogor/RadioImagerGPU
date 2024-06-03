@@ -5,6 +5,20 @@
 ## Overview
 
 ...
+## Configuration
+
+The `config.json` file is used to configure key parameters for the `RadioImager` program. This file should be located in the root directory of the repository. The configuration parameters include:
+
+- `IMAGE_SIZE`: The size of the output image in pixels.
+- `PREDEFINED_MAX_UV`: The predefined maximum UV distance parameter.
+
+Example `config.json`:
+```json
+{
+    "IMAGE_SIZE": 256,
+    "PREDEFINED_MAX_UV": 4000.0
+}
+```
 
 ## System Requirements
 
@@ -26,12 +40,13 @@ To fully utilize the GPU acceleration capabilities, ensure you have a compatible
 - **Python Version:** 3.10.12
 - The required Python packages are listed in `requirements.txt`.
 
+
 ### Installation and Building the Project
 
 Clone the repository and navigate to the project directory:
 
 ```bash
-git clone https://github.com/nkosogor/RadioImagerGPU.git
+git clone --recurse-submodules https://github.com/nkosogor/RadioImagerGPU.git
 cd RadioImagerGPU
 pip install -r requirements.txt
 ```
@@ -145,6 +160,25 @@ python3 tests/compare_images.py
 ```
 
 For detailed information about the tests, refer to [Tests README](tests/README.md).
+
+
+## Analysis
+
+This part presents the performance analysis of UVW and Imaging computations using GPU and CPU implementations (both optimized and non-optimized). The plots below compare the computation times across different numbers of elements using a log scale for UVW, Imaging, and Total computation times. Additionally, the right-hand plots provide a linear scale view for number of elements greater than 2000.
+
+
+### Performance Comparison
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="analysis/performance_comparison_combined_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="analysis/performance_comparison_combined_light.png">
+  <img alt="Performance Comparison" src="analysis/performance_comparison_combined_light.png">
+</picture>
+
+### Observations
+
+The GPU outperforms both the optimized and non-optimized CPU implementations for a large number of elements, though it is slower for a small number of elements due to the overhead of transferring data between the host and the device. The optimized CPU implementation is much faster than the non-optimized version. The GPU is significantly faster for UVW calculations with a large number of elements, but the speedup is less pronounced for imaging calculations, likely due to the fixed grid size (image size of 512 was used). Even so, the GPU remains slightly faster than the optimized CPU for imaging, which can still be beneficial in reducing computation time.
+
 
 
 

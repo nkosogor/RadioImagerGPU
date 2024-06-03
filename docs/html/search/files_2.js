@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['imaging_5fcpu_2epy_0',['imaging_cpu.py',['../imaging__cpu_8py.html',1,'']]]
+  ['generate_5fsynthetic_5fdata_2epy_0',['generate_synthetic_data.py',['../generate__synthetic__data_8py.html',1,'']]]
 ];
