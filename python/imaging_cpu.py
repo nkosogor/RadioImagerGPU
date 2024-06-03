@@ -5,6 +5,21 @@ from numpy.fft import ifft2, ifftshift
 import matplotlib.pyplot as plt
 import os
 import argparse
+import json
+
+def load_config(config_file):
+    """
+    Load configuration from a JSON file.
+
+    Parameters:
+    config_file (str): The path to the JSON configuration file.
+
+    Returns:
+    dict: Configuration dictionary.
+    """
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+    return config
 
 def read_xyz_coordinates(filename):
     """
@@ -85,7 +100,7 @@ def save_uvw(u, v, w, directory):
         df = pd.DataFrame({'u': u_batch, 'v': v_batch, 'w': w_batch})
         df.to_csv(f'{directory}/uvw_coordinates_{idx}.csv', index=False)
 
-def uniform_image(visibilities, u, v, image_size, use_predefined_params=False, optimized=True):
+def uniform_image(visibilities, u, v, image_size, predefined_max_uv, use_predefined_params=False, optimized=True):
     """
     Generate a uniform image from visibilities using FFT.
 
@@ -93,13 +108,14 @@ def uniform_image(visibilities, u, v, image_size, use_predefined_params=False, o
     visibilities (array-like): The visibilities for multiple directions.
     u, v (array-like): U and V coordinates.
     image_size (int): The size of the output image.
+    predefined_max_uv (float): Predefined maximum UV value.
     use_predefined_params (bool): Whether to use predefined UVW parameters.
     optimized (bool): Use optimized implementation if True, else use non-optimized implementation.
 
     Returns:
     ndarray: The generated dirty image.
     """
-    max_uv = np.max(u) if not use_predefined_params else 4000.0
+    max_uv = np.max(u) if not use_predefined_params else predefined_max_uv
     pixel_resolution = (0.20 / max_uv) / 3
     uv_resolution = 1 / (image_size * pixel_resolution)
     uv_max = uv_resolution * image_size / 2
@@ -152,25 +168,40 @@ def save_images(images, image_size, directory, save_as_csv=False):
         if save_as_csv:
             np.savetxt(f'{directory}/image_{idx}.csv', image, delimiter=',')
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
 def main():
     parser = argparse.ArgumentParser(description="Compute UVW coordinates and generate images using CPU.")
     parser.add_argument('--input', type=str, default='data/xyz_coordinates.csv', help='Path to the input CSV file with XYZ coordinates.')
     parser.add_argument('--directions', type=str, default='data/directions.csv', help='Path to the directions CSV file with HAs and Decs.')
-    parser.add_argument('--use_predefined_params', type=bool, default=True, help='Use predefined UVW parameters (default: True).')
+    parser.add_argument('--use_predefined_params', type=str2bool, default=True, help='Use predefined UVW parameters (default: True).')
     parser.add_argument('--image_dir', type=str, default='data/images', help='Directory to save images.')
     parser.add_argument('--uvw_dir', type=str, default='data/uvw_coordinates', help='Directory to save UVW coordinates.')
-    parser.add_argument('--optimized', type=bool, default=True, help='Use optimized implementation (default: True).')
-    parser.add_argument('--save_uvw', type=bool, default=True, help='Save UVW coordinates to CSV (default: True).')
-    parser.add_argument('--generate_images', type=bool, default=True, help='Generate and save images (default: True).')
-    parser.add_argument('--save_as_csv', type=bool, default=True, help='Save images as CSV files (default: True).')
+    parser.add_argument('--optimized', type=str2bool, default=True, help='Use optimized implementation (default: True).')
+    parser.add_argument('--save_uvw', type=str2bool, default=True, help='Save UVW coordinates to CSV (default: True).')
+    parser.add_argument('--generate_images', type=str2bool, default=True, help='Generate and save images (default: True).')
+    parser.add_argument('--save_im', type=str2bool, default=True, help='Save images (default: True).')
+    parser.add_argument('--save_as_csv', type=str2bool, default=True, help='Additionally save images as CSV files apart from PNG (default: True).')
 
     args = parser.parse_args()
+
+    # Load configuration
+    config = load_config('config.json')
+    image_size = config['IMAGE_SIZE']
+    predefined_max_uv = config['PREDEFINED_MAX_UV']
 
     x_m, y_m, z_m = read_xyz_coordinates(args.input)
     directions = pd.read_csv(args.directions)
     HAs = directions.iloc[:, 0].values
     Decs = directions.iloc[:, 1].values
-    image_size = 256
 
     start_time = time.time()
     u, v, w = compute_uvw(x_m, y_m, z_m, HAs, Decs, optimized=args.optimized)
@@ -186,13 +217,14 @@ def main():
         start_time = time.time()
         for idx, (u_batch, v_batch) in enumerate(zip(u, v)):
             visibilities = np.ones(len(u_batch), dtype=complex)
-            image = uniform_image(visibilities, u_batch, v_batch, image_size, args.use_predefined_params, optimized=args.optimized)
+            image = uniform_image(visibilities, u_batch, v_batch, image_size, predefined_max_uv, args.use_predefined_params, optimized=args.optimized)
             images.append(image)
         imaging_time = time.time() - start_time
         print(f"Imaging complete. Execution time: {imaging_time * 1000:.2f} ms")
 
-        save_images(images, image_size, args.image_dir, save_as_csv=args.save_as_csv)
-        print(f"Images saved successfully.")
+        if args.save_im:
+            save_images(images, image_size, args.image_dir, save_as_csv=args.save_as_csv)
+            print(f"Images saved successfully.")
 
 if __name__ == '__main__':
     main()

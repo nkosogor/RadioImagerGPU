@@ -22,6 +22,8 @@ namespace fs = std::filesystem;
  * @return int Exit status of the program.
  */
 int main(int argc, char* argv[]) {
+    config::load_config("config.json");
+    
     argparse::ArgumentParser program("RadioImager");
 
     program.add_argument("--input")

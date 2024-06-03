@@ -2,9 +2,15 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
+#include <fstream>
+#include <nlohmann/json.hpp>
+
 namespace config {
-    const int IMAGE_SIZE = 256;  // Image size in pixels
-    const double PREDEFINED_MAX_UV = 2000.0; 
+    extern int IMAGE_SIZE;
+    extern double PREDEFINED_MAX_UV;
+
+    void load_config(const std::string& config_file);
 }
 
 #endif
+

@@ -11,13 +11,13 @@ set(CMAKE_CUDA_COMPILER /usr/local/cuda/bin/nvcc)
 set(CUDA_ARCHITECTURES 52) # Use the appropriate architecture for your GPU
 
 # Add include directories
-include_directories(${CUDA_INCLUDE_DIRS} include external/argparse/include)
+include_directories(${CUDA_INCLUDE_DIRS} include external/argparse/include external/nlohmann_json/include)
 
 # Find CUDA package
 find_package(CUDA REQUIRED)
 
 # Add the executable and specify CUDA sources
-add_executable(RadioImager src/main.cu src/compute.cu src/data_io.cpp)
+add_executable(RadioImager src/main.cu src/compute.cu src/data_io.cpp src/config.cpp)
 
 # Link the CUDA libraries
 target_link_libraries(RadioImager ${CUDA_LIBRARIES} cufft cudart)
