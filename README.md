@@ -2,7 +2,7 @@
 
 ## Description and Overview
 
-This project, RadioImagerGPU, focuses on developing a GPU-accelerated imager for radio telescope arrays, optimizing the imaging process in arrays with dense UVW sampling. By leveraging the parallel processing capabilities of GPUs, this project aims to enhance the efficiency and performance of radio imaging, potentially simplifying the imaging pipeline and reducing the reliance on complex deconvolution algorithms.
+RadioImagerGPU is a project developed as part of the CS 179 course at Caltech. It focuses on developing a GPU-accelerated imager for radio telescope arrays, optimizing the imaging process in arrays with dense UVW sampling. By leveraging the parallel processing capabilities of GPUs, this project aims to enhance the efficiency and performance of radio imaging, potentially simplifying the imaging pipeline and reducing the reliance on complex deconvolution algorithms.
 
 ## Table of Contents
 
@@ -125,7 +125,7 @@ The GPU-accelerated RadioImager shows improvements compared to the CPU implement
 
 ## Documentation
 
-Apart from the aforementioned READMEs, additional documentation is available in the `docs` directory as HTML files, which were generated with Doxygen and the Doxyfile. These can be examined either in the `docs` directory.
+Apart from the aforementioned READMEs, additional documentation is available in the `docs` directory as HTML files, which were generated with Doxygen and the Doxyfile. These can be examined either in the `docs` directory or or [here](https://nkosogor.github.io/RadioImagerGPU/).
 
 ## Additional Notes
 
