@@ -4,6 +4,22 @@
 
 This project, RadioImagerGPU, focuses on developing a GPU-accelerated imager for radio telescope arrays, optimizing the imaging process in arrays with dense UVW sampling. By leveraging the parallel processing capabilities of GPUs, this project aims to enhance the efficiency and performance of radio imaging, potentially simplifying the imaging pipeline and reducing the reliance on complex deconvolution algorithms.
 
+## Table of Contents
+
+- [Description and Overview](#description-and-overview)
+- [Introduction](#introduction)
+- [System Requirements](#system-requirements)
+- [Installation and Building the Project](#installation-and-building-the-project)
+- [Configuration](#configuration)
+- [GPU Implementation](#gpu-implementation)
+- [CPU Implementation](#cpu-implementation)
+- [Running Tests](#running-tests)
+- [Analysis](#analysis)
+- [Documentation](#documentation)
+- [Additional Notes](#additional-notes)
+- [Contact Information](#contact-information)
+
+
 ## Introduction
 
 Radio telescopes capture data known as visibilities, which are the Fourier transform of the sky's brightness distribution. Processing this data involves complex calculations that can be computationally intensive, especially for large datasets. Traditional CPU-based methods often struggle with the high computational load, leading to slower processing times.
@@ -100,7 +116,7 @@ The GPU-accelerated RadioImager shows improvements compared to the CPU implement
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="analysis/performance_comparison_num_directions_10_dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="analysis/performance_comparison_combined_light.png">
+  <source media="(prefers-color-scheme: light)" srcset="analysis/performance_comparison_num_directions_10_light.png">
   <img alt="Performance Comparison" src="analysis/performance_comparison_num_directions_10_light.png">
 </picture>
 
@@ -117,7 +133,12 @@ This is a toy imager that needs to be updated to be used in practical real-world
 
 - **Acceptance of Arbitrary Visibilities**: Currently, all visibilities are set to 1, so the final image effectively looks like a PSF. Allowing for arbitrary visibilities would make the imager more versatile.
 - **Addition of W-Projection**: For wider fields of view or directions where w-terms become significant, adding w-projection would improve image accuracy.
+- **Reconstruction of Conjugate Visibilities**: Implementing the ability to reconstruct conjugate visibilities from UV coordinates to enhance imaging accuracy.
 
+
+## Contact Information
+
+For questions, please contact [nakosogorov@gmail.com](mailto:nakosogorov@gmail.com) or open an issue on GitHub.
 
 
 

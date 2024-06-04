@@ -6,6 +6,7 @@
 
 This project, RadioImagerGPU, focuses on developing a GPU-accelerated imager for radio telescope arrays, optimizing the imaging process in arrays with dense UVW sampling. By leveraging the parallel processing capabilities of GPUs, this project aims to enhance the efficiency and performance of radio imaging, potentially simplifying the imaging pipeline and reducing the reliance on complex deconvolution algorithms.
 
+
 ## Introduction
 
 Radio telescopes capture data known as visibilities, which are the Fourier transform of the sky's brightness distribution. Processing this data involves complex calculations that can be computationally intensive, especially for large datasets. Traditional CPU-based methods often struggle with the high computational load, leading to slower processing times.
@@ -118,6 +119,11 @@ This is a toy imager that needs to be updated to be used in practical real-world
 
 - **Acceptance of Arbitrary Visibilities**: Currently, all visibilities are set to 1, so the final image effectively looks like a PSF. Allowing for arbitrary visibilities would make the imager more versatile.
 - **Addition of W-Projection**: For wider fields of view or directions where w-terms become significant, adding w-projection would improve image accuracy.
+- **Reconstruction of Conjugate Visibilities**: Implementing the ability to reconstruct conjugate visibilities from UV coordinates to enhance imaging accuracy.
 
+
+## Contact Information
+
+For questions, please contact [nakosogorov@gmail.com](mailto:nakosogorov@gmail.com) or open an issue on GitHub.
 
 

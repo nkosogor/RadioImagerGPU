@@ -55,13 +55,8 @@ Same as for 5 directions but even more pronounced.
 
 Below is a video showing how different numbers of arrays (elements) affect the resulting image (images are shown for different directions). One can use the GPU-accelerated software to quickly test their PSFs for different array configurations, observational directions, and potential artifact identification.
 
-<div align="center">
-  <video width="600" controls autoplay loop muted>
-    <source src="images_evolution_dark.mp4" type="video/mp4" media="(prefers-color-scheme: dark)">
-    <source src="images_evolution_light.mp4" type="video/mp4" media="(prefers-color-scheme: light)">
-    Your browser does not support the video tag.
-  </video>
-</div>
+[Watch the video](images_evolution_dark.mp4)
+
 
 
 ## GPU Activity Duration

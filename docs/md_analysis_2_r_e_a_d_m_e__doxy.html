@@ -88,30 +88,30 @@ $(function(){ initResizable(false); });
   <div class="headertitle"><div class="title">Analysis</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md61"></a> This part presents the performance analysis of UVW and Imaging computations using GPU and CPU implementations (both optimized and non-optimized). The plots below compare the computation times across different numbers of elements using a log scale for UVW, Imaging, and Total computation times. Additionally, the right-hand plots provide a linear scale view for the number of elements where GPU starts to become better than optimized CPU.</p>
-<h1><a class="anchor" id="autotoc_md62"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md62"></a> This part presents the performance analysis of UVW and Imaging computations using GPU and CPU implementations (both optimized and non-optimized). The plots below compare the computation times across different numbers of elements using a log scale for UVW, Imaging, and Total computation times. Additionally, the right-hand plots provide a linear scale view for the number of elements where GPU starts to become better than optimized CPU.</p>
+<h1><a class="anchor" id="autotoc_md63"></a>
 Performance Comparison</h1>
-<h2><a class="anchor" id="autotoc_md63"></a>
+<h2><a class="anchor" id="autotoc_md64"></a>
 Different Numbers of Directions</h2>
-<h3><a class="anchor" id="autotoc_md64"></a>
+<h3><a class="anchor" id="autotoc_md65"></a>
 1 Direction</h3>
 <p>The performance comparison for 1 direction shows that the GPU implementation starts to outperform the optimized CPU implementation as the number of elements increases. However, for a smaller number of elements, the overhead of data transfer makes the GPU slower.</p>
 <div class="image">
 <img src="performance_comparison_num_directions_1_dark.png" alt=""/>
 </div>
-    <h3><a class="anchor" id="autotoc_md65"></a>
+    <h3><a class="anchor" id="autotoc_md66"></a>
 5 Directions</h3>
 <p>For 5 directions, the GPU shows more consistent improvements over the CPU implementations. The parallelization benefits of the GPU become more pronounced, making it significantly faster for larger numbers of elements.</p>
 <div class="image">
 <img src="performance_comparison_num_directions_5_dark.png" alt=""/>
 </div>
-    <h3><a class="anchor" id="autotoc_md66"></a>
+    <h3><a class="anchor" id="autotoc_md67"></a>
 10 Directions</h3>
 <p>Same as for 5 directions but even more pronounced.</p>
 <div class="image">
 <img src="performance_comparison_num_directions_10_dark.png" alt=""/>
 </div>
-    <h2><a class="anchor" id="autotoc_md67"></a>
+    <h2><a class="anchor" id="autotoc_md68"></a>
 Observations</h2>
 <ul>
 <li><b>Large Number of Elements</b>: The GPU outperforms both the optimized and non-optimized CPU implementations for a large number of elements. However, it is slower for a small number of elements due to the overhead of transferring data between the host and the device.</li>
@@ -121,11 +121,11 @@ Observations</h2>
 <li><b>Parallelization Benefits</b>: For larger batches of directions (around 10), GPU improvements become more pronounced due to parallelization of multiple directions.</li>
 <li><b>Large Number of Directions</b>: For a very large number of directions (around 100), transferring data between the host and the device becomes a bottleneck, and the GPU performance is worse compared to the CPU.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md68"></a>
+<h1><a class="anchor" id="autotoc_md69"></a>
 Visual Analysis</h1>
 <p>Below is a video showing how different numbers of arrays (elements) affect the resulting image (images are shown for different directions). One can use the GPU-accelerated software to quickly test their PSFs for different array configurations, observational directions, and potential artifact identification.</p>
 <p><a href="analysis/images_evolution_dark.mp4">Watch the video</a></p>
-<h1><a class="anchor" id="autotoc_md69"></a>
+<h1><a class="anchor" id="autotoc_md70"></a>
 GPU Activity Duration</h1>
 <p>The NVIDIA profiler was used on the GPU-accelerated software with the following command:</p>
 <div class="fragment"><div class="line">nvprof ./build/RadioImager [OPTIONS]</div>
@@ -141,10 +141,10 @@ GPU Activity Duration</h1>
 <li><b>FFT Operations</b>: Executing Fast Fourier Transforms.</li>
 <li><b>Memory Set</b>: Initializing and setting memory values.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md70"></a>
+<h1><a class="anchor" id="autotoc_md71"></a>
 CSV Data</h1>
 <p>The performance data is provided in CSV files, <code>gpu_timings.csv</code> and <code>cpu_timings.csv</code>. Below is the format of these files (all times are in ms):</p>
-<h2><a class="anchor" id="autotoc_md71"></a>
+<h2><a class="anchor" id="autotoc_md72"></a>
 GPU Timings</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -156,7 +156,7 @@ GPU Timings</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md72"></a>
+<h2><a class="anchor" id="autotoc_md73"></a>
 CPU Timings</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">

@@ -10,5 +10,5 @@ var searchData=
   ['run_5fcuda_5fprogram_7',['run_cuda_program',['../namespacecompare__images.html#ab7e745b45ac7f23ba4d2cd4907b83629',1,'compare_images']]],
   ['run_5fpython_5fscript_8',['run_python_script',['../namespacecompare__images.html#ae756d52b8a1e5c4ca3e7ce78612d2bde',1,'compare_images']]],
   ['running_20tests_9',['Running Tests',['../index.html#autotoc_md12',1,'']]],
-  ['running_20the_20tests_10',['Running the Tests',['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/tests/README.md#autotoc_md52',1,'Running the Tests'],['../md_tests_2_r_e_a_d_m_e__doxy.html#autotoc_md58',1,'Running the Tests']]]
+  ['running_20the_20tests_10',['Running the Tests',['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/tests/README.md#autotoc_md53',1,'Running the Tests'],['../md_tests_2_r_e_a_d_m_e__doxy.html#autotoc_md59',1,'Running the Tests']]]
 ];
