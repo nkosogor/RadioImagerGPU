@@ -1,24 +1,22 @@
 # RadioImagerGPU
 
-...
+## Description and Overview
 
-## Overview
+This project, RadioImagerGPU, focuses on developing a GPU-accelerated imager for radio telescope arrays, optimizing the imaging process in arrays with dense UVW sampling. By leveraging the parallel processing capabilities of GPUs, this project aims to enhance the efficiency and performance of radio imaging, potentially simplifying the imaging pipeline and reducing the reliance on complex deconvolution algorithms.
 
-...
-## Configuration
+## Introduction
 
-The `config.json` file is used to configure key parameters for the `RadioImager` program. This file should be located in the root directory of the repository. The configuration parameters include:
+Radio telescopes capture data known as visibilities, which are the Fourier transform of the sky's brightness distribution. Processing this data involves complex calculations that can be computationally intensive, especially for large datasets. Traditional CPU-based methods often struggle with the high computational load, leading to slower processing times.
 
-- `IMAGE_SIZE`: The size of the output image in pixels.
-- `PREDEFINED_MAX_UV`: The predefined maximum UV distance parameter.
+GPUs, with their ability to perform parallel processing, are well-suited for handling these intensive computations. They can efficiently manage the gridding of visibilities, apply complex weighting schemes, and perform fast Fourier transforms (FFTs). This makes GPUs ideal for enhancing the speed and efficiency of radio imaging processes, allowing for real-time imaging and handling larger datasets with higher precision.
 
-Example `config.json`:
-```json
-{
-    "IMAGE_SIZE": 256,
-    "PREDEFINED_MAX_UV": 4000.0
-}
-```
+Additionally, the project involves calculating UVW coordinates from XYZ positions of the antennas. The visibility function is calculated using an integral that accounts for the brightness distribution of the sky as a function of celestial coordinates and spatial frequency coordinates.
+
+By optimizing these computations using GPU acceleration, RadioImagerGPU aims to provide a more efficient and scalable solution for radio telescope imaging.
+
+
+
+
 
 ## System Requirements
 
@@ -58,98 +56,29 @@ cd build
 cmake ..
 make
 ```
+## Configuration
 
-##  GPU Implementation
+The `config.json` file is used to configure key parameters for the `RadioImager` program. This file should be located in the root directory of the repository. The configuration parameters include:
 
-### How to Execute
+- `IMAGE_SIZE`: The size of the output image in pixels.
+- `PREDEFINE_MAX_UV`: The predefined maximum UV distance parameter essentially makes the resolution of the final images predefined and not dependent on the calculated UV coordinates when the corresponding option is enabled.
 
-After building the project, you can execute the `RadioImager` using the following command from the `build` directory:
+
+## GPU Implementation
+
+One can run the GPU-accelerated imager from the root of the repository with:
 ```bash
 ./build/RadioImager [OPTIONS]
 ```
-
-### What the Code Does
-
-The `RadioImager` program computes UVW coordinates from XYZ coordinates, performs imaging using GPU acceleration, and saves the resulting images and coordinates.
-
-### Options
-
-The following options can be provided to the `RadioImager` program:
-
-- `--input`: Path to the input CSV file with XYZ coordinates. Default: `data/xyz_coordinates.csv`
-- `--directions`: Path to the directions CSV file with Hour Angles (HAs) and Declinations (Decs). Default: `data/directions.csv`
-- `--use_predefined_params`: Use predefined UVW parameters. Default: `true`
-- `--output_uvw`: Output UVW coordinates. Default: `true`
-- `--uvw_dir`: Directory to save UVW coordinates. Default: `data/uvw_coordinates`
-- `--image_dir`: Directory to save images. Default: `data/images_gpu`
-- `--save_images`: Save images. Default: `true`
-
-### Example Command
-
-```bash
-./build/RadioImager --input custom_data/xyz_coordinates.csv --directions custom_data/directions.csv --use_predefined_params false --output_uvw true --uvw_dir output/uvw --image_dir output/images --save_images true
-```
-
-This command will use custom input files, disable predefined UVW parameters, output UVW coordinates to the specified directory, and save images to the specified directory.
+For detailed GPU implementation instructions, please refer to the [src/README.md](src/README.md).
 
 ## CPU Implementation
 
-### How to Execute
-
-To run the CPU implementation, execute the `imaging_cpu.py` script from the `python` directory:
+To run the CPU version from the root of the repository, use:
 ```bash
 python3 python/imaging_cpu.py [OPTIONS]
 ```
-
-### What the Code Does
-
-The `imaging_cpu.py` script computes UVW coordinates from XYZ coordinates, performs imaging using CPU processing, and saves the resulting images and coordinates.
-
-### Options
-
-The following options can be provided to the `imaging_cpu.py` script:
-
-- `--input`: Path to the input CSV file with XYZ coordinates. Default: `data/xyz_coordinates.csv`
-- `--directions`: Path to the directions CSV file with Hour Angles (HAs) and Declinations (Decs). Default: `data/directions.csv`
-- `--use_predefined_params`: Use predefined UVW parameters. Default: `true`
-- `--image_dir`: Directory to save images. Default: `data/images`
-- `--uvw_dir`: Directory to save UVW coordinates. Default: `data/uvw_coordinates`
-- `--optimized`: Use optimized implementation. Default: `true`
-- `--save_uvw`: Save UVW coordinates to CSV. Default: `true`
-- `--generate_images`: Generate and save images. Default: `true`
-- `--save_im`: Save images (default: true)
-- `--save_as_csv`: Additionally save images as CSV files apart from PNG. Default: `true`
-
-
-### Optimized vs. Non-Optimized Implementation
-
-#### Optimized Implementation
-The optimized implementation leverages NumPy's broadcasting and vectorized operations to efficiently compute the UVW coordinates and map visibilities to a grid. This approach minimizes the use of explicit loops and takes advantage of NumPy's internal optimizations for array operations, resulting in significant performance improvements, especially for large datasets.
-
-- **UVW Computation**: 
-  - Uses broadcasting to compute the differences between XYZ coordinates.
-  - Calculates UVW coordinates for all baselines.
-  - Masks and flattens arrays to select relevant baselines.
-- **Visibility Mapping**:
-  - Uses vectorized operations to compute grid indices.
-  - Employs `np.add.at` to accumulate visibilities on the grid efficiently.
-
-#### Non-Optimized Implementation
-The non-optimized implementation uses explicit loops to compute UVW coordinates and map visibilities to a grid. While this approach is straightforward and easier to understand, it is significantly slower for large datasets due to the overhead of Python loops and the lack of vectorized operations.
-
-- **UVW Computation**:
-  - Uses nested loops to compute the differences between XYZ coordinates for each pair of antennas.
-  - Calculates UVW coordinates for each baseline individually.
-- **Visibility Mapping**:
-  - Uses loops to compute grid indices and accumulate visibilities.
-  
-### Example Command
-```bash
-python3 python/imaging_cpu.py --input custom_data/xyz_coordinates.csv --directions custom_data/directions.csv --use_predefined_params false --image_dir output/images --uvw_dir output/uvw --optimized false --save_uvw true --generate_images true --save_im true --save_as_csv true
-```
-
-This command will use custom input files, disable predefined UVW parameters, output UVW coordinates to the specified directory, and save images to the specified directory together with saving them as CSV files.
-
+For detailed CPU implementation instructions, please refer to the [python/README.md](python/README.md).
 
 ## Running Tests
 
@@ -161,23 +90,33 @@ python3 tests/compare_images.py
 
 For detailed information about the tests, refer to [Tests README](tests/README.md).
 
-
 ## Analysis
 
-This part presents the performance analysis of UVW and Imaging computations using GPU and CPU implementations (both optimized and non-optimized). The plots below compare the computation times across different numbers of elements using a log scale for UVW, Imaging, and Total computation times. Additionally, the right-hand plots provide a linear scale view for number of elements greater than 2000.
+The GPU-accelerated RadioImager shows improvements compared to the CPU implementation. Below is an example of a performance comparison with different numbers of arrays (elements) in the case of 10 directions. The plots on the left show a log scale, and on the right, a linear scale. The GPU outperforms the optimized CPU version, which uses vectorized NumPy operations, for different parts of the calculation (UVW, Imaging, and Total times). For a more detailed description of the results, please refer to the [analysis/README.md](analysis/README.md).
+
 
 
 ### Performance Comparison
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="analysis/performance_comparison_combined_dark.png">
+  <source media="(prefers-color-scheme: dark)" srcset="analysis/performance_comparison_num_directions_10_dark.png">
   <source media="(prefers-color-scheme: light)" srcset="analysis/performance_comparison_combined_light.png">
-  <img alt="Performance Comparison" src="analysis/performance_comparison_combined_light.png">
+  <img alt="Performance Comparison" src="analysis/performance_comparison_num_directions_10_light.png">
 </picture>
 
-### Observations
 
-The GPU outperforms both the optimized and non-optimized CPU implementations for a large number of elements, though it is slower for a small number of elements due to the overhead of transferring data between the host and the device. The optimized CPU implementation is much faster than the non-optimized version. The GPU is significantly faster for UVW calculations with a large number of elements, but the speedup is less pronounced for imaging calculations, likely due to the fixed grid size (image size of 512 was used). Even so, the GPU remains slightly faster than the optimized CPU for imaging, which can still be beneficial in reducing computation time.
+
+
+## Documentation
+
+Apart from the aforementioned READMEs, additional documentation is available in the `docs` directory as HTML files, which were generated with Doxygen and the Doxyfile. These can be examined either in the `docs` directory.
+
+## Additional Notes
+
+This is a toy imager that needs to be updated to be used in practical real-world scenarios. Some features that can be added for that include:
+
+- **Acceptance of Arbitrary Visibilities**: Currently, all visibilities are set to 1, so the final image effectively looks like a PSF. Allowing for arbitrary visibilities would make the imager more versatile.
+- **Addition of W-Projection**: For wider fields of view or directions where w-terms become significant, adding w-projection would improve image accuracy.
 
 
 

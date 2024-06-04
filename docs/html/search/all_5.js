@@ -1,5 +1,15 @@
 var searchData=
 [
-  ['fftshift_0',['fftshift',['../compute_8cu.html#a326c197aeb03599468303d8c370fb1cb',1,'fftshift(thrust::device_vector&lt; cufftDoubleComplex &gt; &amp;data, int width, int height):&#160;compute.cu'],['../compute_8hpp.html#a326c197aeb03599468303d8c370fb1cb',1,'fftshift(thrust::device_vector&lt; cufftDoubleComplex &gt; &amp;data, int width, int height):&#160;compute.cu']]],
-  ['fftshift_5fkernel_1',['fftshift_kernel',['../compute_8cu.html#a10ecfa736a2d3faef21bd0bca74654fc',1,'compute.cu']]]
+  ['data_0',['Data',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md70',1,'CSV Data'],['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/python/README.md#autotoc_md36',1,'Generating Synthetic Data'],['../md_python_2_r_e_a_d_m_e__doxy.html#autotoc_md47',1,'Generating Synthetic Data']]],
+  ['data_5fio_2ecpp_1',['data_io.cpp',['../data__io_8cpp.html',1,'']]],
+  ['data_5fio_2ehpp_2',['data_io.hpp',['../data__io_8hpp.html',1,'']]],
+  ['description_20and_20overview_3',['Description and Overview',['../index.html#autotoc_md1',1,'']]],
+  ['different_20numbers_20of_20directions_4',['Different Numbers of Directions',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md63',1,'']]],
+  ['direction_5',['1 Direction',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md64',1,'']]],
+  ['directions_6',['Directions',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md66',1,'10 Directions'],['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md65',1,'5 Directions'],['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md63',1,'Different Numbers of Directions']]],
+  ['do_7',['Do',['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/tests/README.md#autotoc_md53',1,'What the Tests Do'],['../md_tests_2_r_e_a_d_m_e__doxy.html#autotoc_md59',1,'What the Tests Do']]],
+  ['documentation_8',['Documentation',['../index.html#autotoc_md15',1,'']]],
+  ['does_9',['Does',['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/src/README.md#autotoc_md19',1,'What the Code Does'],['../md_src_2_r_e_a_d_m_e__doxy.html#autotoc_md24',1,'What the Code Does'],['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/python/README.md#autotoc_md29',1,'What the Code Does'],['../md_python_2_r_e_a_d_m_e__doxy.html#autotoc_md40',1,'What the Code Does']]],
+  ['driver_20and_20gpu_10',['NVIDIA Driver and GPU',['../index.html#autotoc_md5',1,'']]],
+  ['duration_11',['GPU Activity Duration',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md69',1,'']]]
 ];

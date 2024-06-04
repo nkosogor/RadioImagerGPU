@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['image_5fsize_0',['IMAGE_SIZE',['../namespaceconfig.html#aae17681762c142576e8b9d78880cb5b8',1,'config']]],
-  ['imaging_5fcpu_1',['imaging_cpu',['../namespaceimaging__cpu.html',1,'']]],
-  ['imaging_5fcpu_2epy_2',['imaging_cpu.py',['../imaging__cpu_8py.html',1,'']]],
-  ['implementation_3',['Implementation',['../index.html#autotoc_md14',1,'CPU Implementation'],['../index.html#autotoc_md9',1,'GPU Implementation'],['../index.html#autotoc_md20',1,'Non-Optimized Implementation'],['../index.html#autotoc_md19',1,'Optimized Implementation'],['../index.html#autotoc_md18',1,'Optimized vs. Non-Optimized Implementation']]],
-  ['installation_20and_20building_20the_20project_4',['Installation and Building the Project',['../index.html#autotoc_md8',1,'']]]
+  ['generate_5fsynthetic_5fdata_0',['generate_synthetic_data',['../namespacegenerate__synthetic__data.html',1,'generate_synthetic_data'],['../namespacegenerate__synthetic__data.html#a2d786f30cebb50683a0098909ed9a767',1,'generate_synthetic_data.generate_synthetic_data()']]],
+  ['generate_5fsynthetic_5fdata_2epy_1',['generate_synthetic_data.py',['../generate__synthetic__data_8py.html',1,'']]],
+  ['generating_20synthetic_20data_2',['Generating Synthetic Data',['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/python/README.md#autotoc_md36',1,'Generating Synthetic Data'],['../md_python_2_r_e_a_d_m_e__doxy.html#autotoc_md47',1,'Generating Synthetic Data']]],
+  ['gpu_3',['NVIDIA Driver and GPU',['../index.html#autotoc_md5',1,'']]],
+  ['gpu_20activity_20duration_4',['GPU Activity Duration',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md69',1,'']]],
+  ['gpu_20implementation_5',['GPU Implementation',['../md_src_2_r_e_a_d_m_e__doxy.html',1,'GPU Implementation'],['../index.html#autotoc_md10',1,'GPU Implementation']]],
+  ['gpu_20timings_6',['GPU Timings',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md71',1,'']]]
 ];

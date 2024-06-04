@@ -949,7 +949,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = README.md src include python tests tests/README.md
+INPUT                  = README_doxy.md src include python tests tests/README_doxy.md python/README_doxy.md src/README_doxy.md analysis/README_doxy.md
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1040,7 +1040,7 @@ FILE_PATTERNS          = *.c \
                          *.ucf \
                          *.qsf \
                          *.ice \
-                         *.cu *.cuh *.cpp *.hpp *.md *.py
+                         *.cu *.cuh *.cpp *.hpp *.md *.py *.mp4
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -1105,7 +1105,7 @@ EXAMPLE_RECURSIVE      = NO
 # that contain images that are to be included in the documentation (see the
 # \image command).
 
-IMAGE_PATH             =
+IMAGE_PATH             = analysis
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
@@ -1376,7 +1376,7 @@ HTML_EXTRA_STYLESHEET  = docs/doxygen-awesome.css
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       =
+HTML_EXTRA_FILES       = analysis/images_evolution_dark.mp4
 
 # The HTML_COLORSTYLE tag can be used to specify if the generated HTML output
 # should be rendered with a dark or light theme.

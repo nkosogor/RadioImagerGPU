@@ -27,8 +27,7 @@ venv/
 env.bak/
 venv.bak/
 
-# Doxygen
-docs/
+
 
 # C++/CMake
 CMakeFiles/

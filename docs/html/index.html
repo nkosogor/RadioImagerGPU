@@ -88,50 +88,46 @@ $(function(){ initResizable(false); });
   <div class="headertitle"><div class="title">RadioImagerGPU </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a> ...</p>
-<h1><a class="anchor" id="autotoc_md1"></a>
-Overview</h1>
-<p>... </p>
-<h1><a class="anchor" id="autotoc_md2"></a>
-Configuration</h1>
-<p>The <code>config.json</code> file is used to configure key parameters for the <code>RadioImager</code> program. This file should be located in the root directory of the repository. The configuration parameters include:</p>
-<ul>
-<li><code>IMAGE_SIZE</code>: The size of the output image in pixels.</li>
-<li><code>PREDEFINED_MAX_UV</code>: The predefined maximum UV distance parameter.</li>
-</ul>
-<p>Example <code>config.json</code>: </p><div class="fragment"><div class="line">{</div>
-<div class="line">    &quot;IMAGE_SIZE&quot;: 256,</div>
-<div class="line">    &quot;PREDEFINED_MAX_UV&quot;: 4000.0</div>
-<div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
-System Requirements</h1>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
+RadioImagerGPU</h1>
+<h2><a class="anchor" id="autotoc_md1"></a>
+Description and Overview</h2>
+<p>This project, RadioImagerGPU, focuses on developing a GPU-accelerated imager for radio telescope arrays, optimizing the imaging process in arrays with dense UVW sampling. By leveraging the parallel processing capabilities of GPUs, this project aims to enhance the efficiency and performance of radio imaging, potentially simplifying the imaging pipeline and reducing the reliance on complex deconvolution algorithms.</p>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Introduction</h2>
+<p>Radio telescopes capture data known as visibilities, which are the Fourier transform of the sky's brightness distribution. Processing this data involves complex calculations that can be computationally intensive, especially for large datasets. Traditional CPU-based methods often struggle with the high computational load, leading to slower processing times.</p>
+<p>GPUs, with their ability to perform parallel processing, are well-suited for handling these intensive computations. They can efficiently manage the gridding of visibilities, apply complex weighting schemes, and perform fast Fourier transforms (FFTs). This makes GPUs ideal for enhancing the speed and efficiency of radio imaging processes, allowing for real-time imaging and handling larger datasets with higher precision.</p>
+<p>Additionally, the project involves calculating UVW coordinates from XYZ positions of the antennas. The visibility function is calculated using an integral that accounts for the brightness distribution of the sky as a function of celestial coordinates and spatial frequency coordinates.</p>
+<p>By optimizing these computations using GPU acceleration, RadioImagerGPU aims to provide a more efficient and scalable solution for radio telescope imaging.</p>
+<h2><a class="anchor" id="autotoc_md3"></a>
+System Requirements</h2>
 <p>To fully utilize the GPU acceleration capabilities, ensure you have a compatible NVIDIA GPU. Below is the hardware and software setup used for developing and testing this project:</p>
-<h2><a class="anchor" id="autotoc_md4"></a>
-Operating System</h2>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Operating System</h3>
 <ul>
 <li><b>OS:</b> Ubuntu 22.04.4 LTS (Jammy)</li>
 <li><b>Kernel:</b> Linux 6.5.0-28-generic</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md5"></a>
-NVIDIA Driver and GPU</h2>
+<h3><a class="anchor" id="autotoc_md5"></a>
+NVIDIA Driver and GPU</h3>
 <ul>
 <li><b>Driver Version:</b> 550.54.15</li>
 <li><b>CUDA Version:</b> 12.4</li>
 <li><b>GPUs:</b>: NVIDIA GeForce GTX TITAN X (2 units, 12 GB each)</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md6"></a>
-CUDA Toolkit</h2>
+<h3><a class="anchor" id="autotoc_md6"></a>
+CUDA Toolkit</h3>
 <ul>
 <li><b>Version:</b> CUDA 12.4</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md7"></a>
-Python Environment</h2>
+<h3><a class="anchor" id="autotoc_md7"></a>
+Python Environment</h3>
 <ul>
 <li><b>Python Version:</b> 3.10.12</li>
 <li>The required Python packages are listed in <code>requirements.txt</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md8"></a>
-Installation and Building the Project</h2>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Installation and Building the Project</h3>
 <p>Clone the repository and navigate to the project directory:</p>
 <div class="fragment"><div class="line">git clone --recurse-submodules https://github.com/nkosogor/RadioImagerGPU.git</div>
 <div class="line">cd RadioImagerGPU</div>
@@ -141,103 +137,44 @@ Installation and Building the Project</h2>
 <div class="line">cd build</div>
 <div class="line">cmake ..</div>
 <div class="line">make</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
-GPU Implementation</h1>
+</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md9"></a>
+Configuration</h2>
+<p>The <code>config.json</code> file is used to configure key parameters for the <code>RadioImager</code> program. This file should be located in the root directory of the repository. The configuration parameters include:</p>
+<ul>
+<li><code>IMAGE_SIZE</code>: The size of the output image in pixels.</li>
+<li><code>PREDEFINE_MAX_UV</code>: The predefined maximum UV distance parameter essentially makes the resolution of the final images predefined and not dependent on the calculated UV coordinates when the corresponding option is enabled.</li>
+</ul>
 <h2><a class="anchor" id="autotoc_md10"></a>
-How to Execute</h2>
-<p>After building the project, you can execute the <code>RadioImager</code> using the following command from the <code>build</code> directory: </p><div class="fragment"><div class="line">./build/RadioImager [OPTIONS]</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md11"></a>
-What the Code Does</h2>
-<p>The <code>RadioImager</code> program computes UVW coordinates from XYZ coordinates, performs imaging using GPU acceleration, and saves the resulting images and coordinates.</p>
+GPU Implementation</h2>
+<p>One can run the GPU-accelerated imager from the root of the repository with: </p><div class="fragment"><div class="line">./build/RadioImager [OPTIONS]</div>
+</div><!-- fragment --><p> For detailed GPU implementation instructions, please refer to <a class="el" href="md_src_2_r_e_a_d_m_e__doxy.html">GPU Implementation</a>.</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+CPU Implementation</h2>
+<p>To run the CPU version from the root of the repository, use: </p><div class="fragment"><div class="line">python3 python/imaging_cpu.py [OPTIONS]</div>
+</div><!-- fragment --><p> For detailed CPU implementation instructions, please refer to <a class="el" href="md_python_2_r_e_a_d_m_e__doxy.html">CPU Implementation</a>.</p>
 <h2><a class="anchor" id="autotoc_md12"></a>
-Options</h2>
-<p>The following options can be provided to the <code>RadioImager</code> program:</p>
-<ul>
-<li><code>--input</code>: Path to the input CSV file with XYZ coordinates. Default: <code>data/xyz_coordinates.csv</code></li>
-<li><code>--directions</code>: Path to the directions CSV file with Hour Angles (HAs) and Declinations (Decs). Default: <code>data/directions.csv</code></li>
-<li><code>--use_predefined_params</code>: Use predefined UVW parameters. Default: <code>true</code></li>
-<li><code>--output_uvw</code>: Output UVW coordinates. Default: <code>true</code></li>
-<li><code>--uvw_dir</code>: Directory to save UVW coordinates. Default: <code>data/uvw_coordinates</code></li>
-<li><code>--image_dir</code>: Directory to save images. Default: <code>data/images_gpu</code></li>
-<li><code>--save_images</code>: Save images. Default: <code>true</code></li>
-</ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
-Example Command</h2>
-<div class="fragment"><div class="line">./build/RadioImager --input custom_data/xyz_coordinates.csv --directions custom_data/directions.csv --use_predefined_params false --output_uvw true --uvw_dir output/uvw --image_dir output/images --save_images true</div>
-</div><!-- fragment --><p>This command will use custom input files, disable predefined UVW parameters, output UVW coordinates to the specified directory, and save images to the specified directory.</p>
-<h1><a class="anchor" id="autotoc_md14"></a>
-CPU Implementation</h1>
-<h2><a class="anchor" id="autotoc_md15"></a>
-How to Execute</h2>
-<p>To run the CPU implementation, execute the <code><a class="el" href="imaging__cpu_8py.html">imaging_cpu.py</a></code> script from the <code>python</code> directory: </p><div class="fragment"><div class="line">python3 python/imaging_cpu.py [OPTIONS]</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md16"></a>
-What the Code Does</h2>
-<p>The <code><a class="el" href="imaging__cpu_8py.html">imaging_cpu.py</a></code> script computes UVW coordinates from XYZ coordinates, performs imaging using CPU processing, and saves the resulting images and coordinates.</p>
-<h2><a class="anchor" id="autotoc_md17"></a>
-Options</h2>
-<p>The following options can be provided to the <code><a class="el" href="imaging__cpu_8py.html">imaging_cpu.py</a></code> script:</p>
-<ul>
-<li><code>--input</code>: Path to the input CSV file with XYZ coordinates. Default: <code>data/xyz_coordinates.csv</code></li>
-<li><code>--directions</code>: Path to the directions CSV file with Hour Angles (HAs) and Declinations (Decs). Default: <code>data/directions.csv</code></li>
-<li><code>--use_predefined_params</code>: Use predefined UVW parameters. Default: <code>true</code></li>
-<li><code>--image_dir</code>: Directory to save images. Default: <code>data/images</code></li>
-<li><code>--uvw_dir</code>: Directory to save UVW coordinates. Default: <code>data/uvw_coordinates</code></li>
-<li><code>--optimized</code>: Use optimized implementation. Default: <code>true</code></li>
-<li><code>--save_uvw</code>: Save UVW coordinates to CSV. Default: <code>true</code></li>
-<li><code>--generate_images</code>: Generate and save images. Default: <code>true</code></li>
-<li><code>--save_im</code>: Save images (default: true)</li>
-<li><code>--save_as_csv</code>: Additionally save images as CSV files apart from PNG. Default: <code>true</code></li>
-</ul>
-<h2><a class="anchor" id="autotoc_md18"></a>
-Optimized vs. Non-Optimized Implementation</h2>
-<h3><a class="anchor" id="autotoc_md19"></a>
-Optimized Implementation</h3>
-<p>The optimized implementation leverages NumPy's broadcasting and vectorized operations to efficiently compute the UVW coordinates and map visibilities to a grid. This approach minimizes the use of explicit loops and takes advantage of NumPy's internal optimizations for array operations, resulting in significant performance improvements, especially for large datasets.</p>
-<ul>
-<li><b>UVW Computation</b>:<ul>
-<li>Uses broadcasting to compute the differences between XYZ coordinates.</li>
-<li>Calculates UVW coordinates for all baselines.</li>
-<li>Masks and flattens arrays to select relevant baselines.</li>
-</ul>
-</li>
-<li><b>Visibility Mapping</b>:<ul>
-<li>Uses vectorized operations to compute grid indices.</li>
-<li>Employs <code>np.add.at</code> to accumulate visibilities on the grid efficiently.</li>
-</ul>
-</li>
-</ul>
-<h3><a class="anchor" id="autotoc_md20"></a>
-Non-Optimized Implementation</h3>
-<p>The non-optimized implementation uses explicit loops to compute UVW coordinates and map visibilities to a grid. While this approach is straightforward and easier to understand, it is significantly slower for large datasets due to the overhead of Python loops and the lack of vectorized operations.</p>
-<ul>
-<li><b>UVW Computation</b>:<ul>
-<li>Uses nested loops to compute the differences between XYZ coordinates for each pair of antennas.</li>
-<li>Calculates UVW coordinates for each baseline individually.</li>
-</ul>
-</li>
-<li><b>Visibility Mapping</b>:<ul>
-<li>Uses loops to compute grid indices and accumulate visibilities.</li>
-</ul>
-</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md21"></a>
-Example Command</h2>
-<div class="fragment"><div class="line">python3 python/imaging_cpu.py --input custom_data/xyz_coordinates.csv --directions custom_data/directions.csv --use_predefined_params false --image_dir output/images --uvw_dir output/uvw --optimized false --save_uvw true --generate_images true --save_im true --save_as_csv true</div>
-</div><!-- fragment --><p>This command will use custom input files, disable predefined UVW parameters, output UVW coordinates to the specified directory, and save images to the specified directory together with saving them as CSV files.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
-Running Tests</h1>
+Running Tests</h2>
 <p>To run the tests and compare images generated by CUDA and Python implementations, execute the following script from the root of the project:</p>
 <div class="fragment"><div class="line">python3 tests/compare_images.py</div>
-</div><!-- fragment --><p>For detailed information about the tests, refer to <a class="el" href="/Users/nikita/caltech_courses/cs179/RadioImagerGPU/tests/README.md#md_tests_2_r_e_a_d_m_e">Tests README</a>.</p>
-<h1><a class="anchor" id="autotoc_md23"></a>
-Analysis</h1>
-<p>This part presents the performance analysis of UVW and Imaging computations using GPU and CPU implementations (both optimized and non-optimized). The plots below compare the computation times across different numbers of elements using a log scale for UVW, Imaging, and Total computation times. Additionally, the right-hand plots provide a linear scale view for number of elements greater than 2000.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
-Performance Comparison</h2>
-<p>&lt;picture&gt; &lt;source media="(prefers-color-scheme: dark)" srcset="analysis/performance_comparison_combined_dark.png"&gt; &lt;source media="(prefers-color-scheme: light)" srcset="analysis/performance_comparison_combined_light.png"&gt; <img src="analysis/performance_comparison_combined_light.png" alt="Performance Comparison" class="inline"/> &lt;/picture&gt;</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
-Observations</h2>
-<p>The GPU outperforms both the optimized and non-optimized CPU implementations for a large number of elements, though it is slower for a small number of elements due to the overhead of transferring data between the host and the device. The optimized CPU implementation is much faster than the non-optimized version. The GPU is significantly faster for UVW calculations with a large number of elements, but the speedup is less pronounced for imaging calculations, likely due to the fixed grid size (image size of 512 was used). Even so, the GPU remains slightly faster than the optimized CPU for imaging, which can still be beneficial in reducing computation time. </p>
+</div><!-- fragment --><p>For detailed information about the tests, refer to <a class="el" href="md_tests_2_r_e_a_d_m_e__doxy.html">Tests for RadioImagerGPU</a>.</p>
+<h2><a class="anchor" id="autotoc_md13"></a>
+Analysis</h2>
+<p>The GPU-accelerated RadioImager shows improvements compared to the CPU implementation. Below is an example of a performance comparison with different numbers of arrays (elements) in the case of 10 directions. The plots on the left show a log scale, and on the right, a linear scale. The GPU outperforms the optimized CPU version, which uses vectorized NumPy operations, for different parts of the calculation (UVW, Imaging, and Total times). For a more detailed description of the results, please refer to the <a class="el" href="md_analysis_2_r_e_a_d_m_e__doxy.html">Analysis</a>.</p>
+<h3><a class="anchor" id="autotoc_md14"></a>
+Performance Comparison</h3>
+<div class="image">
+<img src="performance_comparison_num_directions_10_dark.png" alt=""/>
+</div>
+    <h2><a class="anchor" id="autotoc_md15"></a>
+Documentation</h2>
+<p>Apart from the aforementioned READMEs, additional documentation is available in the <code>docs</code> directory as HTML files, which were generated with Doxygen and the Doxyfile. These can be examined either in the <code>docs</code> directory.</p>
+<h2><a class="anchor" id="autotoc_md16"></a>
+Additional Notes</h2>
+<p>This is a toy imager that needs to be updated to be used in practical real-world scenarios. Some features that can be added for that include:</p>
+<ul>
+<li><b>Acceptance of Arbitrary Visibilities</b>: Currently, all visibilities are set to 1, so the final image effectively looks like a PSF. Allowing for arbitrary visibilities would make the imager more versatile.</li>
+<li><b>Addition of W-Projection</b>: For wider fields of view or directions where w-terms become significant, adding w-projection would improve image accuracy. </li>
+</ul>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"/>
 </div><!-- contents -->

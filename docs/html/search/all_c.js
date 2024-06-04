@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['observations_0',['Observations',['../index.html#autotoc_md25',1,'']]],
-  ['operating_20system_1',['Operating System',['../index.html#autotoc_md4',1,'']]],
-  ['optimized_20implementation_2',['Optimized Implementation',['../index.html#autotoc_md20',1,'Non-Optimized Implementation'],['../index.html#autotoc_md19',1,'Optimized Implementation'],['../index.html#autotoc_md18',1,'Optimized vs. Non-Optimized Implementation']]],
-  ['optimized_20vs_20non_20optimized_20implementation_3',['Optimized vs. Non-Optimized Implementation',['../index.html#autotoc_md18',1,'']]],
-  ['options_4',['Options',['../index.html#autotoc_md12',1,'Options'],['../index.html#autotoc_md17',1,'Options']]],
-  ['output_5fdir_5',['output_dir',['../namespacegenerate__synthetic__data.html#a93001cb76ad600bd979525a3e3457aa8',1,'generate_synthetic_data']]],
-  ['overview_6',['Overview',['../index.html#autotoc_md1',1,'Overview'],['..//Users/nikita/caltech_courses/cs179/RadioImagerGPU/tests/README.md#autotoc_md27',1,'Overview']]]
+  ['main_0',['main',['../main_8cu.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main():&#160;main.cu'],['../namespaceconvert__gpu__csv__to__png.html#abec19a7f706a2078e637bb00e5a4ae05',1,'convert_gpu_csv_to_png.main()'],['../namespaceimaging__cpu.html#a5f37dc5fa29bfd660ff25479f1cf5df5',1,'imaging_cpu.main()'],['../namespacecompare__images.html#abcb095ae2b62c461911170dbbc99e705',1,'compare_images.main()']]],
+  ['main_2ecu_1',['main.cu',['../main_8cu.html',1,'']]],
+  ['mapvisibilitiesmultidir_2',['mapVisibilitiesMultiDir',['../compute_8cu.html#a9a5c8b9385f3ce12c452d99745355c90',1,'mapVisibilitiesMultiDir(cufftDoubleComplex *grid, const cufftDoubleComplex *visibilities, const double *u, const double *v, double uv_max, double grid_res, int image_size, int num_visibilities, int num_directions):&#160;compute.cu'],['../compute_8hpp.html#a9a5c8b9385f3ce12c452d99745355c90',1,'mapVisibilitiesMultiDir(cufftDoubleComplex *grid, const cufftDoubleComplex *visibilities, const double *u, const double *v, double uv_max, double grid_res, int image_size, int num_visibilities, int num_directions):&#160;compute.cu']]]
 ];

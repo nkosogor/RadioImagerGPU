@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['analysis_0',['Analysis',['../index.html#autotoc_md23',1,'']]],
-  ['and_20building_20the_20project_1',['Installation and Building the Project',['../index.html#autotoc_md8',1,'']]],
-  ['and_20gpu_2',['NVIDIA Driver and GPU',['../index.html#autotoc_md5',1,'']]]
+  ['1_20direction_0',['1 Direction',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md64',1,'']]],
+  ['10_20directions_1',['10 Directions',['../md_analysis_2_r_e_a_d_m_e__doxy.html#autotoc_md66',1,'']]]
 ];
